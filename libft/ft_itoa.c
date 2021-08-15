@@ -3,54 +3,82 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ychoi <ychoi@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/02 05:16:52 by ychoi             #+#    #+#             */
-/*   Updated: 2021/01/08 10:00:51 by ychoi            ###   ########.fr       */
+/*   Created: 2020/10/23 18:09:20 by mjung             #+#    #+#             */
+/*   Updated: 2021/04/21 21:39:26 by jungmyungjin     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t		int_len(int n)
+static int	count_tens(int n)
 {
-	size_t len;
+	int	count;
 
+	count = 0;
 	if (n < 0)
-		len = 1;
-	else
-		len = 0;
-	while (n != 0)
+		n *= -1;
+	while (n / 10)
 	{
-		n = n / 10;
-		len++;
+		n /= 10;
+		count++;
 	}
-	return (len);
+	return (count + 1);
 }
 
-char		*ft_itoa(int n)
+static int	squared(int number, int count)
 {
-	char	*dst;
-	size_t	len;
+	int	result;
 
+	result = 1;
+	if (count < 0)
+		return (0);
+	while (--count)
+	{
+		result *= number;
+	}
+	return (result);
+}
+
+static void	fill_number(char *result, int n, int idx_result, int len_n)
+{
+	int	tmp;
+
+	while (len_n > 0)
+	{
+		tmp = squared(10, len_n);
+		result[idx_result] = (n / tmp) + '0';
+		n %= tmp;
+		idx_result++;
+		len_n--;
+	}
+	result[idx_result] = '\0';
+}
+
+char	*ft_itoa(int n)
+{
+	char	*result;
+	int		idx_result;
+	int		len_n;
+	int		is_nagative;
+
+	idx_result = 0;
+	is_nagative = 0;
 	if (n == INT_MIN)
 		return (ft_strdup("-2147483648"));
-	if (n == 0)
-		return (ft_strdup("0"));
-	len = int_len(n);
-	dst = (char *)malloc(sizeof(char) * (len + 1));
-	if (dst == NULL)
-		return (NULL);
-	dst[len--] = '\0';
 	if (n < 0)
+		is_nagative = 1;
+	len_n = count_tens(n);
+	result = malloc(sizeof(char) * (len_n + is_nagative + 1));
+	if (!result)
+		return (NULL);
+	if (is_nagative)
 	{
+		result[idx_result] = '-';
+		idx_result++;
 		n *= -1;
-		dst[0] = '-';
 	}
-	while (n != 0)
-	{
-		dst[len--] = n % 10 + '0';
-		n = n / 10;
-	}
-	return (dst);
+	fill_number(result, n, idx_result, len_n);
+	return (result);
 }

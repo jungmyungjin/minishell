@@ -3,87 +3,113 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ychoi <ychoi@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/08 03:41:04 by ychoi             #+#    #+#             */
-/*   Updated: 2021/01/08 05:48:21 by ychoi            ###   ########.fr       */
+/*   Created: 2020/10/25 21:19:01 by null              #+#    #+#             */
+/*   Updated: 2021/04/21 21:58:42 by jungmyungjin     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	counting_words(char const *s, char c)
+static int	is_delimiter(char c, char *d)
 {
-	size_t count;
+	int	idx;
+
+	if (!d || !c)
+		return (0);
+	idx = 0;
+	while (d[idx] != '\0')
+	{
+		if (d[idx] == c)
+			return (1);
+		idx++;
+	}
+	return (0);
+}
+
+static int	count_delimiter(char *s, char *c)
+{
+	int	count;
+	int	index;
+	int	check_delimiter;
 
 	count = 0;
-	while (*s != '\0')
+	index = 0;
+	check_delimiter = 0;
+	while (s[index] != '\0')
 	{
-		if (*s == c)
-			s++;
-		else
-		{
-			while (*s != '\0' && *s != c)
-				s++;
+		if ((check_delimiter && !is_delimiter(s[index], c)
+			) || index == 0)
 			count++;
-		}
+		if (is_delimiter(s[index], c))
+			check_delimiter = 1;
+		else
+			check_delimiter = 0;
+		index++;
 	}
 	return (count);
 }
 
-void	*free_split(char **ptr, size_t size)
+static void	free_split_list(char **result)
 {
-	size_t i;
+	int	index;
 
-	i = 0;
-	while (i < size)
+	index = 0;
+	while (result[index])
 	{
-		free(ptr[i]);
-		i++;
+		free(result[index]);
+		result[index] = NULL;
+		index++;
 	}
-	free(ptr);
-	return (NULL);
+	free(result);
+	result = NULL;
 }
 
-char	**split_by_words(char const *s, char c, char **d, size_t row_count)
+static int	string_split(
+		char const *s, char *delim, char **result, int *i_rst)
 {
-	size_t row;
-	size_t col;
+	int	idx_s;
+	int	idx_start;
 
-	row = 0;
-	while (*s != '\0' && row < row_count)
+	idx_start = 0;
+	idx_s = -1;
+	while (s[++idx_s] != '\0')
 	{
-		if (*s == c)
-			s++;
-		else
+		if (is_delimiter(s[idx_s], delim) && !is_delimiter(
+				s[idx_start], delim))
 		{
-			col = 0;
-			while (*s != '\0' && *s != c)
-			{
-				col++;
-				s++;
-			}
-			d[row] = (char *)malloc(sizeof(char) * (col + 1));
-			if (d[row] == NULL)
-				return (free_split(d, row_count + 1));
-			ft_strlcpy(d[row], s - col, col + 1);
-			row++;
+			result[*i_rst] = ft_substr (s, idx_start, idx_s - idx_start + 1);
+			if (!result[*i_rst])
+				return (1);
+			result[(*i_rst)++][idx_s - idx_start] = '\0';
 		}
+		if (is_delimiter(s[idx_s], delim))
+			idx_start = idx_s + 1;
 	}
-	row_count[d] = NULL;
-	return (d);
+	if ((s[idx_s] == '\0' && s[idx_s - 1] && !is_delimiter(s[idx_s - 1], delim
+			)) || (*i_rst == 0 && idx_start == 0 && s[idx_s] == '\0'))
+		result[(*i_rst)] = ft_substr
+			(s, idx_start, idx_s - idx_start + 1);
+	if (!result[(*i_rst)++])
+		return (1);
+	return (0);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char *s, char *c)
 {
-	char	**d;
-	size_t	row_count;
+	char	**result;
+	int		idx_result;
 
-	if (s == NULL)
+	if (!s)
 		return (NULL);
-	row_count = counting_words(s, c);
-	d = (char **)malloc(sizeof(char *) * (row_count + 1));
-	if (d == NULL)
+	result = (char **)malloc(sizeof(char *) * (count_delimiter(s, c) + 1));
+	idx_result = 0;
+	if (!result)
 		return (NULL);
-	return (split_by_words(s, c, d, row_count));
+	if (*s != '\0')
+		if (string_split(s, c, result, &idx_result) == 1)
+			free_split_list(result);
+	result[idx_result] = NULL;
+	return (result);
 }

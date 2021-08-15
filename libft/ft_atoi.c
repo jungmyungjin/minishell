@@ -3,59 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ychoi <ychoi@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/01 05:54:10 by ychoi             #+#    #+#             */
-/*   Updated: 2021/01/01 23:20:24 by ychoi            ###   ########.fr       */
+/*   Created: 2020/10/23 16:47:06 by mjung             #+#    #+#             */
+/*   Updated: 2021/04/21 21:39:26 by jungmyungjin     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		is_space(int c)
+static int	is_blank(char c)
 {
-	if (c == ' ' || (9 <= c && c <= 13))
+	if (c == ' ' || c == '\t' || c == '\n'
+		|| c == '\r' || c == '\f' || c == '\v')
 		return (1);
-	return (0);
+	else
+		return (0);
 }
 
-int		is_over_min_int(long long num, int sign)
+int	ft_atoi(const char *nptr)
 {
-	if (sign == -1 && num * sign < INT_MIN)
-		return (1);
-	return (0);
-}
+	int		index;
+	int		sign;
+	long	result;
 
-int		is_over_max_int(long long num, int sign)
-{
-	if (sign == 1 && INT_MAX < num * sign)
-		return (1);
-	return (0);
-}
-
-int		ft_atoi(const char *str)
-{
-	int			sign;
-	long long	num;
-
+	result = 0;
+	index = 0;
 	sign = 1;
-	num = 0;
-	while (is_space(*str))
-		str++;
-	if (*str == '-' || *str == '+')
+	while (is_blank(nptr[index]))
+		index++;
+	if (nptr[index] == '-' || nptr[index] == '+')
 	{
-		if (*str == '-')
+		if (nptr[index++] == '-')
 			sign = -1;
-		str++;
 	}
-	while (*str != '\0' && ft_isdigit(*str))
+	while (nptr[index] != '\0')
 	{
-		num = num * 10 + (*str - '0');
-		str++;
-		if (is_over_max_int(num, sign))
+		if (nptr[index] < '0' || '9' < nptr[index])
+			break ;
+		result = (result * 10) + (nptr[index++] - '0');
+		if (INT_MAX < (sign * result))
 			return (-1);
-		if (is_over_min_int(num, sign))
+		if (INT_MIN > (sign * result))
 			return (0);
 	}
-	return (sign * num);
+	return ((int)result * sign);
 }

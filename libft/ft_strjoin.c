@@ -3,30 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ychoi <ychoi@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/07 21:37:21 by ychoi             #+#    #+#             */
-/*   Updated: 2021/01/08 10:01:16 by ychoi            ###   ########.fr       */
+/*   Created: 2021/04/21 21:27:14 by mjung             #+#    #+#             */
+/*   Updated: 2021/04/21 22:03:06 by mjung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+static void	do_join(char **s, char **result, int *idx_total)
 {
-	size_t	s1_len;
-	size_t	s2_len;
-	char	*s;
-	char	*p_s;
+	int	idx_tmp;
 
-	if (s1 == NULL || s2 == NULL)
+	idx_tmp = 0;
+	if (*s)
+	{
+		while ((char)((*s)[idx_tmp]) != '\0')
+			((*result)[(*idx_total)++]) = ((*s)[idx_tmp++]);
+		free(*s);
+		*s = NULL;
+	}
+}
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	char	*result;
+	int		total_size;
+	int		idx_total;
+
+	if (!s1 && !s2)
 		return (NULL);
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	s = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
-	if (s == NULL)
+	total_size = ft_strlen(s1) + ft_strlen(s2);
+	result = (char *)malloc(sizeof(char) * (total_size + 1));
+	if (!result)
 		return (NULL);
-	p_s = ft_memccpy(s, s1, '\0', s1_len + 1);
-	ft_strlcat(p_s - 1, (char *)s2, s2_len + 1);
-	return (s);
+	idx_total = 0;
+	do_join(&s1, &result, &idx_total);
+	do_join(&s2, &result, &idx_total);
+	result[idx_total] = '\0';
+	return (result);
 }

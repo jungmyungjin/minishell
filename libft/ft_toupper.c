@@ -3,20 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ychoi <ychoi@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/30 16:23:00 by ychoi             #+#    #+#             */
-/*   Updated: 2020/12/30 16:48:47 by ychoi            ###   ########.fr       */
+/*   Created: 2020/10/23 17:17:52 by mjung             #+#    #+#             */
+/*   Updated: 2021/04/21 21:39:26 by jungmyungjin     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int			ft_toupper(int c)
+int	ft_toupper(int c)
 {
+	int	subtrack;
+
+	subtrack = 'a' - 'A';
 	if ('a' <= c && c <= 'z')
-	{
-		c -= 32;
-	}
-	return (c);
+		return (c - subtrack);
+	else
+		return (c);
 }

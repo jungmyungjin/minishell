@@ -3,16 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ychoi <ychoi@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/31 17:24:14 by ychoi             #+#    #+#             */
-/*   Updated: 2020/12/31 17:27:37 by ychoi            ###   ########.fr       */
+/*   Created: 2020/10/22 21:04:27 by mjung             #+#    #+#             */
+/*   Updated: 2021/04/21 21:39:26 by jungmyungjin     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_bzero(void *s, size_t n)
+void	*ft_bzero(void *b, size_t len)
 {
-	ft_memset(s, 0, n);
+	int		index;
+	char	*local_dest;
+
+	index = 0;
+	local_dest = (char *)b;
+	while ((unsigned long)index < len)
+	{
+		local_dest[index] = 0;
+		index++;
+	}
+	return (local_dest);
 }

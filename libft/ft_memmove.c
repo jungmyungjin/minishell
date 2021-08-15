@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ychoi <ychoi@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/31 21:01:11 by ychoi             #+#    #+#             */
-/*   Updated: 2021/01/01 02:52:56 by ychoi            ###   ########.fr       */
+/*   Created: 2020/10/22 21:36:08 by mjung             #+#    #+#             */
+/*   Updated: 2021/04/21 21:39:26 by jungmyungjin     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,27 @@
 
 void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	size_t				i;
-	unsigned char		*p_dst;
-	const unsigned char	*p_src;
+	size_t	index;
 
-	if (dst == '\0' && src == '\0')
+	if (!dst && !src)
 		return (NULL);
-	i = 0;
-	p_dst = dst;
-	p_src = src;
-	while (i < len)
+	index = 0;
+	if (src < dst)
 	{
-		if (dst <= src)
-			p_dst[i] = p_src[i];
-		else
-			p_dst[len - i - 1] = p_src[len - i - 1];
-		i++;
+		index = len - 1;
+		while ((int)index >= 0)
+		{
+			*((char *)dst + index) = *((char *)src + index);
+			index--;
+		}
+	}
+	else
+	{
+		while (index < len)
+		{
+			*((char *)dst + index) = *((char *)src + index);
+			index++;
+		}
 	}
 	return (dst);
 }

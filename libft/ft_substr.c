@@ -3,28 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ychoi <ychoi@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/07 20:09:10 by ychoi             #+#    #+#             */
-/*   Updated: 2021/01/08 10:01:46 by ychoi            ###   ########.fr       */
+/*   Created: 2020/10/23 17:26:44 by mjung             #+#    #+#             */
+/*   Updated: 2021/04/21 21:39:26 by jungmyungjin     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char		*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char *d;
+	char	*substring;
 
-	if (s == NULL)
+	if (!s || !len || (unsigned int)ft_strlen(s) <= start)
+		return (ft_strdup(""));
+	substring = (char *)malloc(sizeof(char) * (len + 1));
+	if (!substring)
 		return (NULL);
-	d = (char *)malloc(sizeof(char) * (len + 1));
-	if (ft_strlen(s) <= start)
-	{
-		*d = '\0';
-		return (d);
-	}
-	s += start;
-	ft_strlcpy(d, s, len + 1);
-	return (d);
+	ft_strlcpy(substring, &s[start], len + 1);
+	return (substring);
 }

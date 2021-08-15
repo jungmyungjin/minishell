@@ -3,32 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ychoi <ychoi@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/31 17:31:53 by ychoi             #+#    #+#             */
-/*   Updated: 2021/01/01 03:58:52 by ychoi            ###   ########.fr       */
+/*   Created: 2020/10/22 21:04:27 by mjung             #+#    #+#             */
+/*   Updated: 2021/04/21 21:39:26 by jungmyungjin     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memccpy(void *dst, const void *src, int c, size_t n)
+void	*ft_memccpy(void *dst, const void *src, int c, size_t len)
 {
-	unsigned char			*p_dst;
-	const unsigned char		*p_src;
-	size_t					i;
+	size_t	index;
+	int		is_found;
 
-	i = 0;
-	p_dst = dst;
-	p_src = src;
-	while (i < n)
+	index = 0;
+	is_found = 0;
+	while (index < len)
 	{
-		*p_dst = *p_src;
-		if (*p_dst == (unsigned char)c)
-			return (p_dst + 1);
-		p_src++;
-		p_dst++;
-		i++;
+		((unsigned char *)dst)[index] = ((unsigned char *)src)[index];
+		if (((unsigned char *)src)[index] == (unsigned char)c)
+		{
+			is_found = 1;
+			break ;
+		}
+		index++;
 	}
-	return (NULL);
+	if (is_found)
+		return (&((unsigned char *)dst)[++index]);
+	else
+		return (NULL);
 }
