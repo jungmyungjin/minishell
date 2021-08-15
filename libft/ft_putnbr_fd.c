@@ -3,40 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ychoi <ychoi@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/02 04:30:20 by ychoi             #+#    #+#             */
-/*   Updated: 2021/01/02 05:02:15 by ychoi            ###   ########.fr       */
+/*   Created: 2020/10/22 21:25:42 by mjung             #+#    #+#             */
+/*   Updated: 2021/04/21 21:39:38 by jungmyungjin     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	nbr(unsigned int num, int fd)
-{
-	unsigned int	quotient;
-	unsigned int	remainder;
-	char			*base;
-
-	base = "0123456789";
-	if (num < 10)
-	{
-		ft_putchar_fd(base[num], fd);
-		return ;
-	}
-	quotient = num / 10;
-	remainder = num % 10;
-	nbr(quotient, fd);
-	ft_putchar_fd(base[remainder], fd);
-}
-
 void	ft_putnbr_fd(int n, int fd)
 {
+	if (n == -2147483648)
+	{
+		write(fd, "-2147483648", 11);
+		return ;
+	}
 	if (n < 0)
 	{
 		ft_putchar_fd('-', fd);
-		nbr((unsigned int)(n * -1), fd);
+		n *= -1;
 	}
-	else
-		nbr((unsigned int)(n), fd);
+	if (n / 10)
+	{
+		ft_putnbr_fd(n / 10, fd);
+	}
+	ft_putchar_fd(n % 10 + '0', fd);
 }

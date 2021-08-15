@@ -3,35 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ychoi <ychoi@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/07 22:33:46 by ychoi             #+#    #+#             */
-/*   Updated: 2021/01/08 10:01:40 by ychoi            ###   ########.fr       */
+/*   Created: 2020/10/23 18:07:18 by mjung             #+#    #+#             */
+/*   Updated: 2021/04/21 21:39:26 by jungmyungjin     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char		*ft_strtrim(char const *s1, char const *set)
+static int	is_set_character(char c, char const *set)
 {
-	char	*d1;
-	size_t	start_idx;
-	size_t	end_idx;
+	while (set && *set != '\0')
+	{
+		if (*set == c)
+			return (1);
+		set++;
+	}
+	return (0);
+}
 
-	if (s1 == NULL)
+char	*ft_strtrim(char const *s1, char const *set)
+{
+	char	*result;
+	int		len_s1;
+	int		idx_start;
+	int		idx_end;
+
+	if (!s1)
 		return (NULL);
-	if (set == NULL)
-		return (ft_strdup(s1));
-	start_idx = 0;
-	end_idx = ft_strlen(s1) - 1;
-	while (s1[start_idx] != '\0' && ft_strchr(set, s1[start_idx]) != '\0')
-		start_idx++;
-	while (s1[end_idx] != '\0' && ft_strchr(set, s1[end_idx]) != '\0' &&
-			1 < end_idx)
-		end_idx--;
-	if (end_idx <= start_idx)
+	idx_start = 0;
+	idx_end = 0;
+	len_s1 = ft_strlen(s1);
+	while (is_set_character(s1[idx_start], set))
+		idx_start++;
+	while ((len_s1 - 1 - idx_end) >= 0 && is_set_character(
+			s1[len_s1 - 1 - idx_end], set))
+		idx_end++;
+	if (len_s1 == idx_start || len_s1 == idx_end)
 		return (ft_strdup(""));
-	d1 = (char *)malloc(sizeof(char) * (end_idx - start_idx + 2));
-	ft_strlcpy(d1, &s1[start_idx], end_idx - start_idx + 2);
-	return (d1);
+	result = (char *)malloc(sizeof(char) * (len_s1 - idx_start - idx_end + 1));
+	if (!result)
+		return (NULL);
+	ft_strlcpy(result, &s1[idx_start], len_s1 - idx_start - idx_end + 1);
+	return (result);
 }

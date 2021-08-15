@@ -3,32 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ychoi <ychoi@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/02 00:03:43 by ychoi             #+#    #+#             */
-/*   Updated: 2021/01/08 02:34:40 by ychoi            ###   ########.fr       */
+/*   Created: 2020/10/22 22:18:21 by mjung             #+#    #+#             */
+/*   Updated: 2021/04/21 21:39:26 by jungmyungjin     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char		*ft_strnstr(const char *haystack, const char *needle, size_t len)
+static char	*find_string(const char *big, const char *little, size_t len)
 {
-	size_t	needle_len;
-	size_t	i;
+	int		big_idx;
+	int		little_idx;
+	char	*result;
 
-	needle_len = ft_strlen(needle);
-	if (*needle == '\0')
-		return ((char *)haystack);
-	if (len == 0)
-		return (NULL);
-	i = 0;
-	while (i <= len - needle_len && *haystack != '\0')
+	big_idx = 0;
+	little_idx = 0;
+	result = (char *)&big[0];
+	while (big_idx >= 0 && (unsigned long)big_idx < len && little
+		[little_idx] != '\0' && big[big_idx] != '\0')
 	{
-		if (ft_strncmp(haystack, needle, needle_len) == 0)
-			return ((char*)haystack);
-		i++;
-		haystack++;
+		if (big[big_idx] == little[little_idx])
+		{
+			if (little_idx++ == 0)
+				result = (char *)&big[big_idx];
+		}
+		else
+		{
+			big_idx -= little_idx;
+			little_idx = 0;
+		}
+		big_idx++;
 	}
-	return (NULL);
+	if (little[little_idx] != '\0')
+		result = NULL;
+	return (result);
+}
+
+char	*ft_strnstr(const char *big, const char *little, size_t len)
+{
+	char	*result;
+
+	if (!big && !little)
+		return (NULL);
+	result = find_string(big, little, len);
+	return (result);
 }
