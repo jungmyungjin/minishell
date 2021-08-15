@@ -1,12 +1,23 @@
+# 최소 cmake 버전
 cmake_minimum_required(VERSION 3.17)
-project(minishell C)
 
-set(CMAKE_C_FLAGS -lreadline)
+# 프로젝트 이름
+project(minishell)
 
+# 컴파일러 지정
+set(CMAKE_CXX_COMPILER g++)
+
+# include 디렉토리 추가
 include_directories(.)
 include_directories(libft)
+include_directories(/usr/local/opt/readline/include)
 
-add_executable(minishell
+# 라이브러리 경로 추가
+link_directories(/usr/local/opt/readline/lib)
+
+# 실행파일
+add_executable(
+        minishell
         libft/ft_atoi.c
         libft/ft_bzero.c
         libft/ft_calloc.c
@@ -53,3 +64,5 @@ add_executable(minishell
         libft/libft.h
         src/main.c
         minishell.h)
+
+target_link_libraries(minishell readline)
