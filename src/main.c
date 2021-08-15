@@ -9,7 +9,8 @@ void minishell_loop()
 		line = readline(">> ");
 
 		// macos 에서 해당 함수를 사용하기위해 make 설정을 해야함.
-		// rl_replace_line("", 0);
+		 rl_replace_line("", 0);
+
 
 		add_history(line);
 		free(line);
