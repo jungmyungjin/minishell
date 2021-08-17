@@ -1,7 +1,11 @@
 # minishell
 42seoul team project
+🤝 (@ychoi, @mjung)
 
-## 사전 설치
-`brew install readline` 를 설치해야함. 
+# ⚠️
+## 라이브러리 설치 필요
+`brew install readline`
 
-by. mjung
+## 라이브러리 심볼릭 링크 설정
+`brew link --force readline` 설
+
