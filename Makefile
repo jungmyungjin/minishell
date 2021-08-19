@@ -15,7 +15,6 @@ $(NAME): $(OBJS)
 	make -C $(LIBFT)
 	ar rcs $(MINISHELL_LIB) $(OBJS)
 	$(CC)  $(CFLAG) $(MINISHELL_LIB) $(LIBFT)/libft.a $(LIBS) -o $(NAME)
-	#$(CC) $(CFLAG) $(OBJS) -o $(NAME)
 
 all: $(NAME)
 
