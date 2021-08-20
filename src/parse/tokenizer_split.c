@@ -49,27 +49,6 @@ int find_quotes_to_end(char *line, int i)
     return (i);
 }
 
-int counting_tokens_else(char *line, int *i, int *count, int *quote_count)
-{
-    while (line[*i] != '\0' && line[*i] != ' ')
-    {
-        if (line[*i] == '\"' || line[*i] == '\'')
-        {
-            *i = find_quotes_to_end(line, *i);
-            if (*i == -1)
-                return (quotes_exception()); //return -1
-            (*quote_count)++;
-        }
-        (*i)++;
-    }
-    if ((*quote_count) == 0)
-        (*count)++;
-    else
-        (*count) += (*quote_count);
-    (*quote_count) = 0;
-    return (0);
-}
-
 int counting_tokens(char *line) {
     int count;
     int i;
@@ -82,8 +61,24 @@ int counting_tokens(char *line) {
     {
         if (line[i] == ' ')
             i++;
-        else
-            counting_tokens_else(line, &i, &count, &quote_count);
+        else {
+            while (line[i] != '\0' && line[i] != ' ')
+            {
+                if (line[i] == '\"' || line[i] == '\'')
+                {
+                    i = find_quotes_to_end(line, i);
+                    if (i == -1)
+                        return (quotes_exception()); //return -1
+                    quote_count++;
+                }
+                i++;
+            }
+            if (quote_count == 0)
+                count++;
+            else
+                count += quote_count;
+            quote_count = 0;
+        }
     }
     return (count);
 }
