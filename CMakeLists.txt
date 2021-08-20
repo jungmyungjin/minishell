@@ -7,6 +7,8 @@ project(minishell)
 # 컴파일러 지정
 set(CMAKE_CXX_COMPILER g++)
 
+set(CMAKE_CXX_FLAGS ${LDFLAGS} ${CPPFLAGS})
+
 # include 디렉토리 추가
 include_directories(.)
 include_directories(libft)
@@ -63,6 +65,10 @@ add_executable(
         libft/ft_toupper.c
         libft/libft.h
         src/main.c
-        minishell.h)
+        minishell.h
+        src/parse/tokenizer.c
+        src/parse/tokenizer_split.c
+        src/exception/parse_exception.c
+        src/error/error.c)
 
 target_link_libraries(minishell readline)
