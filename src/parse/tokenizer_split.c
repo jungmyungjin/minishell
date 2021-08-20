@@ -66,18 +66,19 @@ int counting_tokens(char *line) {
     {
         if (is_space(line[i]))
             i++;
+        else if (line[i] == '\"' || line[i] == '\'')
+        {
+            i = find_quotes_to_end(line, i);
+            if (i == -1)
+                return (-1);
+            i++;
+            count++;
+        }
         else {
             while (line[i] != '\0' && !is_space(line[i]))
             {
                 if (line[i] == '\"' || line[i] == '\'')
                     break;
-                i++;
-            }
-            if (line[i] == '\"' || line[i] == '\'')
-            {
-                i = find_quotes_to_end(line, i);
-                if (i == -1)
-                    return (-1);
                 i++;
             }
             count++;
@@ -94,7 +95,6 @@ char *create_token(const char *line, int start, int end) {
         printf("%c", line[start]);
         start++;
     }
-
     return NULL;
 }
 
@@ -102,26 +102,31 @@ char **split_line(const char *line, char **tokens, int count)
 {
     int i;
     int row;
-    int end;
+    int start;
 
     i = 0;
     row = 0;
+
     while (line[i] != '\0' && row < count)
     {
-        if (line[i] == ' ')
+        if (is_space(line[i]))
             i++;
-        else
+        else if (line[i] == '\"' || line[i] == '\'')
         {
-            while (line[i] != '\0' && line[i] != ' ')
+            start = i;
+            i = find_quotes_to_end(line, i);
+            tokens[row++] = ft_substr(line, start + 1, i - start - 1);
+            i++;
+        }
+        else {
+            start = i;
+            while (line[i] != '\0' && !is_space(line[i]))
             {
                 if (line[i] == '\"' || line[i] == '\'')
-                {
-                    end = find_quotes_to_end(line, i);
-                    tokens[row++] = create_token(line, i, end);
-                    i = end;
-                }
+                    break;
                 i++;
             }
+            tokens[row++] = ft_substr(line, start, i - start);
         }
     }
     tokens[row] = NULL;
@@ -141,5 +146,9 @@ char **tokenizer_split(char *line)
     tokens = (char **)malloc(sizeof(char *) * (token_count + 1));
     if (tokens == NULL)
         allocation_error();
-    return split_line(line, tokens, token_count);
+    tokens = split_line(line, tokens, token_count);
+    // for (int i = 0; i < token_count; i++)
+    //    printf("[%d] %s\n", i, tokens[i]);
+
+    return tokens;
 }
