@@ -49,35 +49,38 @@ int find_quotes_to_end(char *line, int i)
     return (i);
 }
 
+int is_space(char c)
+{
+    if (c == ' ')
+        return (1); //true
+    return (0); // false
+}
+
 int counting_tokens(char *line) {
     int count;
     int i;
-    int quote_count;
 
     count = 0;
     i = 0;
-    quote_count = 0;
     while (line[i] != '\0')
     {
-        if (line[i] == ' ')
+        if (is_space(line[i]))
             i++;
         else {
-            while (line[i] != '\0' && line[i] != ' ')
+            while (line[i] != '\0' && !is_space(line[i]))
             {
                 if (line[i] == '\"' || line[i] == '\'')
-                {
-                    i = find_quotes_to_end(line, i);
-                    if (i == -1)
-                        return (quotes_exception()); //return -1
-                    quote_count++;
-                }
+                    break;
                 i++;
             }
-            if (quote_count == 0)
-                count++;
-            else
-                count += quote_count;
-            quote_count = 0;
+            if (line[i] == '\"' || line[i] == '\'')
+            {
+                i = find_quotes_to_end(line, i);
+                if (i == -1)
+                    return (-1);
+                i++;
+            }
+            count++;
         }
     }
     return (count);
