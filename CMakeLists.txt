@@ -62,6 +62,8 @@ add_executable(
         libft/ft_tolower.c
         libft/ft_toupper.c
         libft/libft.h
+        built-in/ft_cd.c
+        built-in/ft_pwd.c
         src/main.c
         minishell.h)
 
