@@ -1,4 +1,6 @@
-SRCS =  ./src/main.c
+SRCS =  ./src/main.c \
+		./src/built-in/ft_cd.c \
+		./src/built-in/ft_pwd.c
 
 CC = gcc
 LIBFT = libft

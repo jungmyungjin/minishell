@@ -64,6 +64,8 @@ add_executable(
         libft/ft_tolower.c
         libft/ft_toupper.c
         libft/libft.h
+        src/built-in/ft_cd.c
+        src/built-in/ft_pwd.c
         src/main.c
         minishell.h
         src/parse/tokenizer.c
