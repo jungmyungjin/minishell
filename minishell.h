@@ -9,6 +9,7 @@
 # include <signal.h>
 # include <string.h> // strerror()
 # include <errno.h> // variable errno
+# include "libft/libft.h"
 
 int main(int argc, char *argv[], char *envp[]);
 

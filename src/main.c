@@ -1,7 +1,8 @@
 #include "../minishell.h"
 
 // tree 형태로 파싱
-char *parser(char *line) {
+char *parser(char *line)
+{
     char **tokens;
 
     // 토큰화 ["ls", "-al", "|", "cat"]
