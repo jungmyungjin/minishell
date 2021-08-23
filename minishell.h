@@ -13,14 +13,27 @@
 int main(int argc, char *argv[], char *envp[]);
 
 
+typedef struct s_token {
+    int token_count;
+    char **tokens;
+} t_token;
+
 /*
  * parser
  */
 char **tokenizer(char *line);
-char **tokenizer_split(char *line);
+t_token tokenizer_split(char *line);
+void    convert_env(t_token token_info);
 
-void	*free_tokens(char **ptr, size_t size);
+/*
+ * env utils
+char *get_env_value(char *env_key);
 
+
+/*
+ * utils
+ */
+int	ft_strcmp(char *s1, char *s2);
 
 /*
  * exception
