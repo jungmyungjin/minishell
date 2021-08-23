@@ -1,25 +1,27 @@
 SRCS =  ./src/main.c \
 		./src/built-in/ft_cd.c \
-		./src/built-in/ft_pwd.c
+		./src/built-in/ft_pwd.c \
+		./src/built-in/ft_env.c \
 
 CC = gcc
 LIBFT = libft
 NAME = minishell
 
-LIBS = ${LDFLAGS} ${CPPFLAGS} -lreadline
+LIBS = $(LDFLAGS) $(CPPFLAGS) -lreadline
 
 CFLAG = -Wall -Wextra -Werror
 OBJS = $(SRCS:.c=.o)
 
-MINISHELL_LIB = minishell.a
+all: make_libft $(NAME)
 
 $(NAME): $(OBJS)
+	$(CC) $(LIBFT)/libft.a $(CFLAG) $(LIBS) -I./ -o $(NAME) $(OBJS)
+
+make_libft:
 	make -C $(LIBFT)
-	ar rcs $(MINISHELL_LIB) $(OBJS)
-	$(CC)  $(CFLAG) $(MINISHELL_LIB) $(LIBFT)/libft.a $(LIBS) -o $(NAME)
 
-all: $(NAME)
-
+.c.o :
+	$(CC) $(LIBS) -I./ -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
