@@ -133,22 +133,23 @@ char **split_line(const char *line, char **tokens, int count)
     return tokens;
 }
 
-char **tokenizer_split(char *line)
+t_token tokenizer_split(char *line)
 {
-    int token_count;
-    char **tokens;
+    t_token token_info;
 
-
-    if (line == NULL)
-        return (NULL);
-    token_count = counting_tokens(line);
-    printf("token count: %d\n", token_count);
-    tokens = (char **)malloc(sizeof(char *) * (token_count + 1));
-    if (tokens == NULL)
+    if (*line == '\0')
+    {
+        token_info.token_count = 0;
+        token_info.tokens = NULL;
+        return token_info;
+    }
+    token_info.token_count = counting_tokens(line);
+    printf("token count: %d\n", token_info.token_count);
+    token_info.tokens = (char **)malloc(sizeof(char *) * (token_info.token_count + 1));
+    if (token_info.tokens == NULL)
         allocation_error();
-    tokens = split_line(line, tokens, token_count);
-    // for (int i = 0; i < token_count; i++)
-    //    printf("[%d] %s\n", i, tokens[i]);
-
-    return tokens;
+    token_info.tokens = split_line(line, token_info.tokens, token_info.token_count);
+    // for (int i = 0; i < token_info.token_count; i++)
+    //    printf("[%d] %s\n", i, token_info.tokens[i]);
+    return token_info;
 }

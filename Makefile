@@ -1,7 +1,13 @@
 SRCS =  ./src/main.c \
 		./src/built-in/ft_cd.c \
 		./src/built-in/ft_pwd.c \
-		./src/built-in/ft_env.c \
+		./src/parse/tokenizer.c \
+		./src/parse/tokenizer_env.c \
+		./src/parse/tokenizer_split.c \
+		./src/error/error.c \
+		./src/utils/ft_env.c \
+		./src/utils/ft_strcmp.c \
+		./src/exception/parse_exception.c
 
 CC = gcc
 LIBFT = libft

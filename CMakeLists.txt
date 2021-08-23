@@ -71,6 +71,9 @@ add_executable(
         src/parse/tokenizer.c
         src/parse/tokenizer_split.c
         src/exception/parse_exception.c
-        src/error/error.c)
+        src/error/error.c
+        src/parse/tokenizer_env.c
+        src/utils/ft_env.c
+        src/utils/ft_strcmp.c)
 
 target_link_libraries(minishell readline)
