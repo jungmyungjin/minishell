@@ -5,6 +5,8 @@
  * chdir() 함수 자체가 상대경로도 인식해주기 때문에 따로 처리가 필요하지 않음
  */
 
+#include "../../minishell.h"
+
 void	ft_cd()
 {
 	char	*target_path;

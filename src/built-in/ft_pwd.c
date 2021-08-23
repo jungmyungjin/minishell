@@ -5,11 +5,12 @@
  * 2. 현재 디렉토리의 값을 구한뒤 해당 값을 리턴한다.
  */
 
+#include "../../minishell.h"
+
 char *ft_pwd()
 {
 	char *current_path;
 
 	current_path = NULL;
-	path_2 = getcwd(NULL, 0);
 	return (current_path);	// 현재 디렉토리 경로 리턴
 }
