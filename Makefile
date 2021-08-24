@@ -21,7 +21,7 @@ OBJS = $(SRCS:.c=.o)
 all: make_libft $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(LIBFT)/libft.a $(CFLAG) $(LIBS) -I./ -o $(NAME) $(OBJS)
+	$(CC) $(CFLAG) -I./ -o $(NAME) $(OBJS) $(LIBFT)/libft.a $(LIBS)
 
 make_libft:
 	make -C $(LIBFT)
