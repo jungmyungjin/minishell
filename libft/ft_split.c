@@ -6,29 +6,13 @@
 /*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 21:19:01 by null              #+#    #+#             */
-/*   Updated: 2021/04/21 21:58:42 by jungmyungjin     ###   ########.fr       */
+/*   Updated: 2021/08/24 16:30:58 by jungmyungjin     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	is_delimiter(char c, char *d)
-{
-	int	idx;
-
-	if (!d || !c)
-		return (0);
-	idx = 0;
-	while (d[idx] != '\0')
-	{
-		if (d[idx] == c)
-			return (1);
-		idx++;
-	}
-	return (0);
-}
-
-static int	count_delimiter(char *s, char *c)
+static int	count_delimiter(const char *s, char c)
 {
 	int	count;
 	int	index;
@@ -39,10 +23,9 @@ static int	count_delimiter(char *s, char *c)
 	check_delimiter = 0;
 	while (s[index] != '\0')
 	{
-		if ((check_delimiter && !is_delimiter(s[index], c)
-			) || index == 0)
+		if ((check_delimiter && s[index] != c) || index == 0)
 			count++;
-		if (is_delimiter(s[index], c))
+		if (s[index] == c)
 			check_delimiter = 1;
 		else
 			check_delimiter = 0;
@@ -67,7 +50,7 @@ static void	free_split_list(char **result)
 }
 
 static int	string_split(
-		char const *s, char *delim, char **result, int *i_rst)
+		char const *s, char delimiter, char **result, int *idx_result)
 {
 	int	idx_s;
 	int	idx_start;
@@ -76,27 +59,27 @@ static int	string_split(
 	idx_s = -1;
 	while (s[++idx_s] != '\0')
 	{
-		if (is_delimiter(s[idx_s], delim) && !is_delimiter(
-				s[idx_start], delim))
+		if (s[idx_s] == delimiter && s[idx_start] != delimiter)
 		{
-			result[*i_rst] = ft_substr (s, idx_start, idx_s - idx_start + 1);
-			if (!result[*i_rst])
+			result[*idx_result] = ft_substr(
+					s, idx_start, idx_s - idx_start + 1);
+			if (!result[*idx_result])
 				return (1);
-			result[(*i_rst)++][idx_s - idx_start] = '\0';
+			result[(*idx_result)++][idx_s - idx_start] = '\0';
 		}
-		if (is_delimiter(s[idx_s], delim))
+		if (s[idx_s] == delimiter)
 			idx_start = idx_s + 1;
 	}
-	if ((s[idx_s] == '\0' && s[idx_s - 1] && !is_delimiter(s[idx_s - 1], delim
-			)) || (*i_rst == 0 && idx_start == 0 && s[idx_s] == '\0'))
-		result[(*i_rst)] = ft_substr
-			(s, idx_start, idx_s - idx_start + 1);
-	if (!result[(*i_rst)++])
+	if (!((s[idx_s] == '\0' && s[idx_s - 1] && s[idx_s - 1] != delimiter)
+			|| (*idx_result == 0 && idx_start == 0 && s[idx_s] == '\0')))
+		return (0);
+	result[(*idx_result)++] = ft_substr(s, idx_start, idx_s - idx_start + 1);
+	if (!(result[(*idx_result)++]))
 		return (1);
 	return (0);
 }
 
-char	**ft_split(char *s, char *c)
+char	**ft_split(char const *s, char c)
 {
 	char	**result;
 	int		idx_result;
