@@ -1,4 +1,4 @@
-#include <stdbool.h>
+
 # include "../../minishell.h"
 
 int is_env_character(char c)
@@ -51,7 +51,7 @@ int find_dollar_end(char *token, int j)
 {
     while (is_env_character(token[j]))
         j++;
-    return (j);
+    return (j - 1);
 }
 
 void set_new_token(char *new_token, char *substr1, char *env_value, char *substr2)
@@ -62,7 +62,7 @@ void set_new_token(char *new_token, char *substr1, char *env_value, char *substr
     sub_ptr1 = substr1;
     sub_ptr2 = substr2;
 
-    printf("substr1: %s, env_value: %s, substr2: %s\n", substr1, env_value, substr2);
+    // printf("substr1: %s, env_value: %s, substr2: %s\n", substr1, env_value, substr2);
     while (*substr1 != '\0')
         *(new_token++) = *(substr1++);
     while (*env_value != '\0')
@@ -81,15 +81,15 @@ char *create_new_token(char *token, int start_dollar, int end_dollar) //, char *
     char *new_token;
     int new_token_len;
 
-    env_key = ft_substr(token, start_dollar + 1, end_dollar - start_dollar - 1); // env key를 문자료열로 만들어서 찾는다.
+    env_key = ft_substr(token, start_dollar + 1, end_dollar - start_dollar); // env key를 문자료열로 만들어서 찾는다.
     // printf("env key: %s", env_key);
     env_value = get_env_value(env_key); // env_key 를 사용하여 env_value 가져온다.
-    new_token_len = ft_strlen(token) - (end_dollar - start_dollar) + ft_strlen(env_value); // 전체길이 - key길이 + value 길이 // 추후 하나로 합칠 예정. 변수 5개 초과
+    new_token_len = ft_strlen(token) - (end_dollar - start_dollar + 1) + ft_strlen(env_value); // 전체길이 - key길이 + value 길이 // 추후 하나로 합칠 예정. 변수 5개 초과
     new_token = (char *)malloc(sizeof(char) * (new_token_len + 1)); // todo: env 값을 못찾앗을떄 테스트 해봐야함
     if (new_token == NULL)
         allocation_error();
     set_new_token(new_token, ft_substr(token, 0, start_dollar), env_value,
-                  ft_substr(token, end_dollar - start_dollar, ft_strlen(token)));
+                  ft_substr(token, end_dollar + 1, ft_strlen(token)));
     // printf("new token: %s", new_token);
     free(env_key);
     free(env_value);
