@@ -6,7 +6,7 @@
 /*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 21:27:14 by mjung             #+#    #+#             */
-/*   Updated: 2021/04/21 22:03:06 by mjung            ###   ########.fr       */
+/*   Updated: 2021/08/27 01:03:50 by jungmyungjin     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,10 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!result)
 		return (NULL);
 	idx_total = 0;
-	do_join(&s1, &result, &idx_total);
-	do_join(&s2, &result, &idx_total);
+	if (s1)
+		do_join(&s1, &result, &idx_total);
+	if (s2)
+		do_join(&s2, &result, &idx_total);
 	result[idx_total] = '\0';
 	return (result);
 }

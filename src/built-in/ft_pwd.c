@@ -5,7 +5,7 @@
  * 2. 현재 디렉토리의 값을 구한뒤 해당 값을 리턴한다.
  */
 
-#include "../../minishell.h"
+#include "minishell.h"
 
 char *ft_pwd()
 {

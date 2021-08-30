@@ -13,9 +13,11 @@ set(CMAKE_CXX_FLAGS ${LDFLAGS} ${CPPFLAGS})
 include_directories(.)
 include_directories(libft)
 include_directories(/usr/local/opt/readline/include)
+#include_directories(/opt/homebrew/opt/readline/include)
 
 # 라이브러리 경로 추가
 link_directories(/usr/local/opt/readline/lib)
+#link_directories(/opt/homebrew/opt/readline/lib)
 
 # 실행파일
 add_executable(
@@ -64,8 +66,6 @@ add_executable(
         libft/ft_tolower.c
         libft/ft_toupper.c
         libft/libft.h
-        src/built-in/ft_cd.c
-        src/built-in/ft_pwd.c
         src/main.c
         minishell.h
         src/parse/tokenizer.c
@@ -73,7 +73,16 @@ add_executable(
         src/exception/parse_exception.c
         src/error/error.c
         src/parse/tokenizer_env.c
-        src/utils/ft_env.c
-        src/utils/ft_strcmp.c)
+        src/utils/ft_strcmp.c
+        src/built-in/ft_cd.c
+        src/built-in/ft_pwd.c
+        src/built-in/ft_env.c
+        src/built-in/ft_export.c
+        src/built-in/ft_unset.c
+        src/env/init_env.c
+        src/env/set_env.c
+        src/env/get_env.c
+        src/env/unset_env.c
+)
 
 target_link_libraries(minishell readline)

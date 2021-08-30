@@ -1,11 +1,17 @@
 SRCS =  ./src/main.c \
 		./src/built-in/ft_cd.c \
+		./src/built-in/ft_env.c \
+		./src/built-in/ft_export.c \
 		./src/built-in/ft_pwd.c \
+		./src/built-in/ft_unset.c \
 		./src/parse/tokenizer.c \
 		./src/parse/tokenizer_env.c \
 		./src/parse/tokenizer_split.c \
+		./src/env/get_env.c \
+		./src/env/init_env.c \
+		./src/env/set_env.c \
+		./src/env/unset_env.c \
 		./src/error/error.c \
-		./src/utils/ft_env.c \
 		./src/utils/ft_strcmp.c \
 		./src/exception/parse_exception.c
 

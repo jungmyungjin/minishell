@@ -1,12 +1,12 @@
 # include "../../minishell.h"
 
-void convert_env(t_token token);
+void convert_env(t_list *env, t_token token);
 
 int find_dollar(char *string);
 
 
 // 토큰화하는 함수
-char **tokenizer(char *line)
+char **tokenizer(t_list *env, char *line)
 {
     t_token token_info;
 
@@ -15,7 +15,7 @@ char **tokenizer(char *line)
         return (NULL);
 
     // convert env variable in tokens
-    convert_env(token_info);
+    convert_env(env, token_info);
     //for (int i = 0; i < token_info.token_count; i++)
     //    printf("[%d] %s\n", i, token_info.tokens[i]);
 
