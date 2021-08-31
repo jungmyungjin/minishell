@@ -1,7 +1,7 @@
 #include "../minishell.h"
 
 // tree 형태로 파싱
-char *parser(char *line, t_list *env)
+char *parser(t_list *env, char *line)
 {
     char **tokens;
 
