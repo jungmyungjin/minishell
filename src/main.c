@@ -1,12 +1,12 @@
 #include "../minishell.h"
 
 // tree 형태로 파싱
-char *parser(char *line)
+char *parser(char *line, t_list *env)
 {
     char **tokens;
 
     // 토큰화 ["ls", "-al", "|", "cat"]
-    tokens = tokenizer(line);
+    tokens = tokenizer(env, line);
     if (tokens == NULL) // 토큰화 실패.
         return (NULL);
 
@@ -20,25 +20,27 @@ char *parser(char *line)
 }
 
 
-void minishell_loop()
+void minishell_loop(t_list **env)
 {
 	char *line;
 
 	while (1){
 		line = readline(">> ");
-		parser(line); // 파서 시작.
+		parser(*env, line); // 파서 시작.
 		// macos 에서 해당 함수를 사용하기위해 make 설정을 해야함.
 		rl_replace_line("", 0);
-
-
 		add_history(line);
 		free(line);
 	}
 }
 
-
 int main(int argc, char *argv[], char *envp[])
 {
-	minishell_loop();
+	t_list *env;
+
+	if(argc||argv||envp)	// gcc 컴파일 에러처리를 위함
+		;
+	env_initialize(&env, envp);
+	minishell_loop(&env);
 	return (EXIT_SUCCESS);
 }

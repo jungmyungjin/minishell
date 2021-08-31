@@ -74,7 +74,7 @@ void set_new_token(char *new_token, char *substr1, char *env_value, char *substr
     free(sub_ptr2);
 }
 
-char *create_new_token(char *token, int start_dollar, int end_dollar) //, char *env_list)
+char *create_new_token(t_list *env, char *token, int start_dollar, int end_dollar) //, char *env_list)
 {
     char *env_value;
     char *env_key;
@@ -83,7 +83,7 @@ char *create_new_token(char *token, int start_dollar, int end_dollar) //, char *
 
     env_key = ft_substr(token, start_dollar + 1, end_dollar - start_dollar); // env key를 문자료열로 만들어서 찾는다.
     // printf("env key: %s", env_key);
-    env_value = get_env_value(env_key); // env_key 를 사용하여 env_value 가져온다.
+    env_value = get_env_value(env, env_key); // env_key 를 사용하여 env_value 가져온다.
     new_token_len = ft_strlen(token) - (end_dollar - start_dollar + 1) + ft_strlen(env_value); // 전체길이 - key길이 + value 길이 // 추후 하나로 합칠 예정. 변수 5개 초과
     new_token = (char *)malloc(sizeof(char) * (new_token_len + 1)); // todo: env 값을 못찾앗을떄 테스트 해봐야함
     if (new_token == NULL)
@@ -98,7 +98,7 @@ char *create_new_token(char *token, int start_dollar, int end_dollar) //, char *
 
 
 
-void convert_env(t_token token_info)
+void convert_env(t_list *env, t_token token_info)
 {
     int i;
     int end_dollar;
@@ -112,7 +112,7 @@ void convert_env(t_token token_info)
         if (start_dollar != -1)
         {
             end_dollar = find_dollar_end(token_info.tokens[i], start_dollar + 1);
-            new_token = create_new_token(token_info.tokens[i], start_dollar, end_dollar);
+            new_token = create_new_token(env, token_info.tokens[i], start_dollar, end_dollar);
             free(token_info.tokens[i]);
             token_info.tokens[i] = new_token;
             continue; // 조건에 맞는 env 가 나오지 않을때까지 계속 토큰 반복
