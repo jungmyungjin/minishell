@@ -11,6 +11,8 @@
 # include <errno.h> // variable errno
 # include "libft/libft.h"
 
+# define SHELL_NAME "minishell"
+
 int main(int argc, char *argv[], char *envp[]);
 
 
@@ -45,6 +47,7 @@ int	quotes_exception();
  * error
  */
 int	allocation_error();
+void env_key_error(char *cmd, char *arg);
 
 
 /*
@@ -61,6 +64,7 @@ void	ft_unset(t_list **env, char *target_key);
 /*
  *  env
  */
+
 typedef struct s_env
 {
 	char *origin_text;
@@ -73,6 +77,6 @@ void	env_initialize(t_list **env, char **envp);
 char	*get_env_value(t_list *env, char *env_key);
 void	set_env(t_list **env, char *key, char *value);
 void	unset_env(t_list **env_list, char *target_key);
-
+int	check_env_key(char *key);
 
 #endif

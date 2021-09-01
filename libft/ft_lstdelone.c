@@ -6,7 +6,7 @@
 /*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 18:31:40 by mjung             #+#    #+#             */
-/*   Updated: 2021/04/21 21:39:26 by jungmyungjin     ###   ########.fr       */
+/*   Updated: 2021/09/01 20:46:09 by jungmyungjin     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,14 @@ void	ft_lstdelone(t_list *lst, void (*del)(void*))
 	if (!lst || !del)
 		return ;
 	(*del)((void *)(lst)->content);
+	if (lst->next == NULL)
+	{
+
+	}
+	else
+	{
+
+	}
+
 	free(lst);
 }

@@ -11,6 +11,7 @@ SRCS =  ./src/main.c \
 		./src/env/init_env.c \
 		./src/env/set_env.c \
 		./src/env/unset_env.c \
+		./src/env/check_env_key.c \
 		./src/error/error.c \
 		./src/utils/ft_strcmp.c \
 		./src/exception/parse_exception.c
