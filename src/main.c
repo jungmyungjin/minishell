@@ -7,13 +7,9 @@ char *parser(t_list *env, char *line)
     t_btree btree;
     int result;
 
-    // 토큰화 ["ls", "-al", "|", "cat"]
-    result = tokenizer(env, line, &tokens);
+    result = lexical_analysis(env, line, &tokens);
     if (result == -1) // 토큰화 실패.
         return (NULL);
-
-    // token 에 의미(type) 부여
-    // lexer = lexical_analysis(tokens);
 
     // 문법 체크 및 tree 로
     // btree = syntax_analyzer(tokens);
