@@ -21,6 +21,48 @@ typedef struct s_token {
     char **tokens;
 } t_token;
 
+
+/*
+ * AST
+ */
+typedef struct s_args {
+    char **args;
+} t_args;
+
+typedef struct s_simple_cmd {
+    char *filename;
+    t_args *args;
+} t_simple_cmd;
+
+// https://www.gnu.org/software/bash/manual/html_node/Redirections.html
+# define INPUT 0 // <
+# define OUTPUT 1 // >
+# define HERE_DOCUMENTS 2 // <<
+# define APPENDING_OUTPUT 3// >>
+typedef struct s_redirect {
+    int type;
+    char *filename;
+} t_redirect;
+
+typedef struct s_cmd {
+    t_simple_cmd simple_cmd;
+    t_redirect redirect;
+} t_cmd;
+
+#define CMD 0
+#define PIPE 1 // '|'
+typedef struct s_abstract_syntax {
+    int type;
+    void *data;
+} t_as;
+
+// tree is contained in abstract_syntax
+typedef struct s_btree {
+    t_as *as;
+    struct s_btree *left;
+    struct s_btree *right;
+} t_btree;
+
 /*
  * parser
  */
