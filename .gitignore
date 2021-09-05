@@ -55,3 +55,6 @@ dkms.conf
 cmake-build-debug/
 .idea/
 
+# execute file
+minishell
+

@@ -15,11 +15,22 @@
 
 int main(int argc, char *argv[], char *envp[]);
 
+/*
+ * token
+ */
 
+# define T_WORD 0
+# define T_PIPE 1
+# define T_REDIRECT 2
 typedef struct s_token {
-    int token_count;
-    char **tokens;
+    int type;
+    char *str;
 } t_token;
+
+typedef struct s_token_info {
+    int count;
+    t_token *tokens;
+} t_token_info;
 
 
 /*
@@ -66,10 +77,10 @@ typedef struct s_btree {
 /*
  * parser
  */
-char	**tokenizer(t_list *env, char *line);
-t_token	tokenizer_split(char *line);
-void	convert_env(t_list *env, t_token token_info);
-
+int 	lexical_analysis(t_list *env, char *line, t_token_info *token_info);
+int    tokenizer_split(char *line, t_token_info *token_info);
+void	convert_env(t_list *env, t_token_info *token_info);
+void    set_tokenizer_type(t_token_info *token_info);
 /*
  * env utils
  */

@@ -28,7 +28,7 @@ int find_double_quotes(const char *line, int i)
     return (i);
 }
 
-int find_quotes_to_end(char *line, int i)
+int find_quotes_to_end(const char *line, int i)
 {
     if (line[i + 1] == '\0') // "이 1개만 나오고 line 이 끝났을 경우
         return (-1);
@@ -98,7 +98,7 @@ char *create_token(const char *line, int start, int end) {
     return NULL;
 }
 
-char **split_line(const char *line, char **tokens, int count)
+t_token *split_line(const char *line, t_token *tokens, int count)
 {
     int i;
     int row;
@@ -115,7 +115,7 @@ char **split_line(const char *line, char **tokens, int count)
         {
             start = i;
             i = find_quotes_to_end(line, i);
-            tokens[row++] = ft_substr(line, start + 1, i - start - 1);
+            tokens[row++].str = ft_substr(line, start + 1, i - start - 1);
             i++;
         }
         else {
@@ -126,30 +126,22 @@ char **split_line(const char *line, char **tokens, int count)
                     break;
                 i++;
             }
-            tokens[row++] = ft_substr(line, start, i - start);
+            tokens[row++].str = ft_substr(line, start, i - start);
         }
     }
-    tokens[row] = NULL;
+    tokens[row].str = NULL;
     return tokens;
 }
 
-t_token tokenizer_split(char *line)
+int tokenizer_split(char *line, t_token_info *token_info)
 {
-    t_token token_info;
-
     if (*line == '\0')
-    {
-        token_info.token_count = 0;
-        token_info.tokens = NULL;
-        return token_info;
-    }
-    token_info.token_count = counting_tokens(line);
-    printf("token count: %d\n", token_info.token_count);
-    token_info.tokens = (char **)malloc(sizeof(char *) * (token_info.token_count + 1));
-    if (token_info.tokens == NULL)
+        return (-1);
+    token_info->count = counting_tokens(line);
+    printf("token count: %d\n", token_info->count);
+    token_info->tokens = (t_token *)malloc(sizeof(t_token) * (token_info->count + 1));
+    if (token_info->tokens == NULL)
         allocation_error();
-    token_info.tokens = split_line(line, token_info.tokens, token_info.token_count);
-    // for (int i = 0; i < token_info.token_count; i++)
-    //    printf("[%d] %s\n", i, token_info.tokens[i]);
-    return token_info;
+    token_info->tokens = split_line(line, token_info->tokens, token_info->count);
+    return (0);
 }
