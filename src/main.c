@@ -3,18 +3,18 @@
 // tree 형태로 파싱
 char *parser(t_list *env, char *line)
 {
-    char **tokens;
+    t_token_info tokens;
+    t_btree root;
+    int result;
 
-    // 토큰화 ["ls", "-al", "|", "cat"]
-    tokens = tokenizer(env, line);
-    if (tokens == NULL) // 토큰화 실패.
+    result = lexical_analysis(env, line, &tokens);
+    if (result == -1) // 토큰화 실패.
         return (NULL);
 
-    // token 에 의미(type) 부여
-    // lexer = lexical_analysis(tokens);
-
     // 문법 체크 및 tree 로
-    // btree = syntactic_analysis();
+    //result = syntax_analysis(tokens, &root);
+    if (result == -1) // 문법 체크 실패
+        return (NULL);
 
     return NULL;
 }
