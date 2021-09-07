@@ -15,7 +15,7 @@ char *parser(t_list *env, char *line)
     //result = syntax_analysis(tokens, &root);
     if (result == -1) // 문법 체크 실패
         return (NULL);
-
+    // btree = syntax_analyzer(tokens);
     return NULL;
 }
 

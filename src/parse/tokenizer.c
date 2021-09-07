@@ -1,27 +1,28 @@
 # include "../../minishell.h"
 
-void convert_env(t_list *env, t_token token);
-
-int find_dollar(char *string);
-
-
 // 토큰화하는 함수
-char **tokenizer(t_list *env, char *line)
+int lexical_analysis(t_list *env, char *line, t_token_info *token_info)
 {
-    t_token token_info;
+    int result;
 
-    token_info = tokenizer_split(line);
-    if (token_info.token_count == 0) // line 이 null일 경우
-        return (NULL);
+    // 문자열 분리 ["ls", "-al", "|", "cat"]
+    result = tokenizer_split(line, token_info);
+    if (result == -1) // line 이 null일 경우
+        return (-1);
 
     // convert env variable in tokens
     convert_env(env, token_info);
-    //for (int i = 0; i < token_info.token_count; i++)
-    //    printf("[%d] %s\n", i, token_info.tokens[i]);
 
     // 함수 호출시 전처리가 필요한지 연구 필요
     // todo: convert backslash in tokens
 
-    return token_info.tokens;
+    // token 에 의미(type) 부여
+    set_tokenizer_type(token_info);
+
+//    for (int i = 0; i < token_info->count; i++)
+//        printf("[%d] %s\n", i, token_info->tokens[i].str);
+
+
+    return (0);
 }
 
