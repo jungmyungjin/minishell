@@ -4,7 +4,7 @@
 char *parser(t_list *env, char *line)
 {
     t_token_info tokens;
-    t_btree btree;
+    t_btree root;
     int result;
 
     result = lexical_analysis(env, line, &tokens);
@@ -12,8 +12,10 @@ char *parser(t_list *env, char *line)
         return (NULL);
 
     // 문법 체크 및 tree 로
+    //result = syntax_analysis(tokens, &root);
+    if (result == -1) // 문법 체크 실패
+        return (NULL);
     // btree = syntax_analyzer(tokens);
-
     return NULL;
 }
 
