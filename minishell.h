@@ -19,9 +19,10 @@ int main(int argc, char *argv[], char *envp[]);
  * token
  */
 
-# define T_WORD 0
-# define T_PIPE 1
-# define T_REDIRECT 2
+// null is 0
+# define T_WORD 1
+# define T_PIPE 2
+# define T_REDIRECT 3
 typedef struct s_token {
     int type;
     char *str;

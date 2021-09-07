@@ -84,7 +84,7 @@ add_executable(
         src/env/get_env.c
         src/env/unset_env.c
         src/env/check_env_key.c
-        src/parse/syntax_analyzer.c
+        src/parse/syntax_analysis.c
         src/parse/tokenizer_type.c
 )
 
