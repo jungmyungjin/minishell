@@ -112,6 +112,8 @@ void	ft_env(t_list *env);
 void	ft_export(t_list **env, char *key, char *value);
 char	*ft_pwd();
 void	ft_unset(t_list **env, char *target_key);
+char	*get_current_path(void);
+
 
 
 
