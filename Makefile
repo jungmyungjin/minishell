@@ -15,7 +15,11 @@ SRCS =  ./src/main.c \
 		./src/env/check_env_key.c \
 		./src/error/error.c \
 		./src/utils/ft_strcmp.c \
-		./src/exception/parse_exception.c
+		./src/exception/parse_exception.c \
+		./src/env/check_env_key.c \
+		./src/execute/external.c \
+		./src/env/env_path.c
+
 
 CC = gcc
 LIBFT = libft

@@ -10,6 +10,7 @@
 # include <string.h> // strerror()
 # include <errno.h> // variable errno
 # include "libft/libft.h"
+#include <sys/stat.h>
 
 # define SHELL_NAME "minishell"
 
@@ -131,5 +132,11 @@ char	*get_env_value(t_list *env, char *env_key);
 void	set_env(t_list **env, char *key, char *value);
 void	unset_env(t_list **env_list, char *target_key);
 int	check_env_key(char *key);
+char	*get_full_path_by_env(t_list *env, char *filename);
+
+/*
+ *  execute
+ */
+int	exec_external(t_list *env);
 
 #endif
