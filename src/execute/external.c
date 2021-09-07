@@ -10,6 +10,8 @@ int	exec_external(t_list *env)
 	pid_t pid, wpid;
 	int status;
 
+	cmd = ft_strdup("ls");
+
 	file_path = get_full_path_by_env(env, cmd);
 
 	// 값을 입력함 -----------------------------------
@@ -37,4 +39,5 @@ int	exec_external(t_list *env)
 	{
 		ft_putendl_fd("ERROR", STDERR_FILENO);
 	}
+	return (0);
 }

@@ -70,9 +70,10 @@ add_executable(
         minishell.h
         src/parse/tokenizer.c
         src/parse/tokenizer_split.c
+        src/parse/tokenizer_env.c
+        src/parse/tokenizer_type.c
         src/exception/parse_exception.c
         src/error/error.c
-        src/parse/tokenizer_env.c
         src/utils/ft_strcmp.c
         src/built-in/ft_cd.c
         src/built-in/ft_pwd.c
