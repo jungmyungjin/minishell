@@ -11,11 +11,14 @@ char *parser(t_list *env, char *line)
     if (result == -1) // 토큰화 실패.
         return (NULL);
 
+    for (int i = 0; i<=tokens.count; i++)
+        printf("index: %d, str: %s, type: %d\n", i, tokens.tokens[i].str, tokens.tokens[i].type);
+
     // 문법 체크 및 tree 로
-    //result = syntax_analysis(tokens, &root);
+    result = syntax_analysis(tokens, &root);
     if (result == -1) // 문법 체크 실패
         return (NULL);
-    // btree = syntax_analyzer(tokens);
+    // tokens_free(tokens);
     return NULL;
 }
 

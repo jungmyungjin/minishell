@@ -19,9 +19,10 @@ int main(int argc, char *argv[], char *envp[]);
  * token
  */
 
-# define T_WORD 0
-# define T_PIPE 1
-# define T_REDIRECT 2
+// null is 0
+# define T_WORD 1
+# define T_PIPE 2
+# define T_REDIRECT 3
 typedef struct s_token {
     int type;
     char *str;
@@ -85,7 +86,7 @@ void    set_tokenizer_type(t_token_info *token_info);
 int syntax_analysis(t_token_info tokens, t_btree *root);
 int syntax_pipeline(t_token_info tokens, int idx);
 int syntax_cmd(t_token_info tokens, int idx);
-int syntax_simple_cmd(t_token_info tokens, int idx, t_simple_cmd *simple_cmd);
+int syntax_simple_cmd(t_token_info tokens, int idx);
 int syntax_args(t_token_info tokens, int idx, char **args, int depth);
 int syntax_redirects(t_token_info tokens, int idx);
 int syntax_io_redirect(t_token_info tokens, int idx);

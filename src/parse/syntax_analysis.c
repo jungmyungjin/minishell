@@ -20,22 +20,19 @@ int syntax_pipeline(t_token_info tokens, int idx)
     idx = syntax_cmd(tokens, idx);
     if (idx == -1)
         return (-1);
-    idx++;
     if (tokens.tokens[idx].type == T_PIPE)
-        syntax_pipeline(tokens, idx);
+        idx = syntax_pipeline(tokens, idx + 1);
     return (idx);
 }
 
 int syntax_cmd(t_token_info tokens, int idx)
 {
     t_cmd cmd;
-    t_simple_cmd *simple_cmd;
 
     // simple_cmd
-    idx = syntax_simple_cmd(tokens, idx, simple_cmd);
+    idx = syntax_simple_cmd(tokens, idx);
     if (idx == -1)
         return (-1); // 파싱 실패
-    idx++;
     // 다음이 리다이렉션 < << > >> 일경우 , 시도
     if (tokens.tokens[idx].type == T_REDIRECT)
     {
@@ -58,7 +55,6 @@ int syntax_redirects(t_token_info tokens, int idx)
     idx = syntax_io_redirect(tokens, idx);
     if (idx == -1)
         return (-1);
-    idx++;
     if (tokens.tokens[idx].type == T_REDIRECT)
     {
         idx = syntax_redirects(tokens, idx); //계속 들어감...
@@ -81,14 +77,15 @@ int syntax_io_redirect(t_token_info tokens, int idx)
     return (idx);
 }
 
-int syntax_simple_cmd(t_token_info tokens, int idx, t_simple_cmd *simple_cmd)
+int syntax_simple_cmd(t_token_info tokens, int idx)
 {
     int i;
+    t_simple_cmd simple_cmd;
 
     if (tokens.tokens[idx].type == T_WORD) // cmd name
     {
-        simple_cmd->cmd_name = ft_strdup(tokens.tokens[idx].str);
-        if (simple_cmd->cmd_name == NULL)
+        simple_cmd.cmd_name = ft_strdup(tokens.tokens[idx].str);
+        if (simple_cmd.cmd_name == NULL)
             allocation_error();
         idx++;
         if (tokens.tokens[idx].type == T_WORD)
@@ -96,13 +93,13 @@ int syntax_simple_cmd(t_token_info tokens, int idx, t_simple_cmd *simple_cmd)
             i = 0;
             while (tokens.tokens[idx + i].type == T_WORD) // 2차원 배열 크기 할당
                 i++;
-            simple_cmd->args = (char **)malloc(sizeof(char *) * (i));
-            if (simple_cmd->args == NULL)
+            simple_cmd.args = (char **)malloc(sizeof(char *) * (i + 1));
+            if (simple_cmd.args == NULL)
                 allocation_error();
-            idx = syntax_args(tokens, idx, simple_cmd->args, 0);
+            idx = syntax_args(tokens, idx, simple_cmd.args, 0);
         }
         else
-            simple_cmd->args = NULL; // args가 없음.
+            simple_cmd.args = NULL; // args가 없음.
     }
     else
         return (-1);
@@ -124,10 +121,11 @@ int syntax_args(t_token_info tokens, int idx, char **args, int depth)
         args[depth] = str;
     }
     // <args> WORD
-    if (tokens.tokens[idx + 1].type == T_WORD)
-    {
-        syntax_args(tokens, idx + 1, args, depth + 1);
-    }
+    idx++;
+    if (tokens.tokens[idx].type == T_WORD)
+        idx = syntax_args(tokens, idx, args, depth + 1);
+    else
+        args[depth + 1] = NULL;
     return idx;
 }
 
