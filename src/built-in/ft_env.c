@@ -19,4 +19,5 @@ void ft_env(t_list *env)
 			allocation_error();
 		env = env->next;
 	}
+	printf("%s", result);
 }
