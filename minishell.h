@@ -145,6 +145,8 @@ void	set_env(t_list **env, char *key, char *value);
 void	unset_env(t_list **env_list, char *target_key);
 int	check_env_key(char *key);
 char	*get_full_path_by_env(t_list *env, char *filename);
+t_env	*find_env_by_key(t_list *env, char *env_key);
+
 
 /*
  *  execute
