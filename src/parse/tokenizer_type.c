@@ -18,6 +18,7 @@ void set_tokenizer_type(t_token_info *token_info)
     int i;
 
     i = 0;
+    token_info->tokens[token_info->count].type = T_NULL;
     while (i < token_info->count)
     {
         if (!ft_strcmp(token_info->tokens[i].str, "|"))

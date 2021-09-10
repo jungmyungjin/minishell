@@ -20,7 +20,7 @@ int main(int argc, char *argv[], char *envp[]);
  * token
  */
 
-// null is 0
+# define T_NULL 0
 # define T_WORD 1
 # define T_PIPE 2
 # define T_REDIRECT 3
