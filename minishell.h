@@ -20,9 +20,10 @@ int main(int argc, char *argv[], char *envp[]);
  * token
  */
 
-# define T_WORD 0
-# define T_PIPE 1
-# define T_REDIRECT 2
+// null is 0
+# define T_WORD 1
+# define T_PIPE 2
+# define T_REDIRECT 3
 typedef struct s_token {
     int type;
     char *str;
@@ -37,13 +38,9 @@ typedef struct s_token_info {
 /*
  * AST
  */
-typedef struct s_args {
-    char **args;
-} t_args;
-
 typedef struct s_simple_cmd {
-    char *filename;
-    t_args *args;
+    char *cmd_name;
+    char **args;
 } t_simple_cmd;
 
 // https://www.gnu.org/software/bash/manual/html_node/Redirections.html
@@ -58,7 +55,7 @@ typedef struct s_redirect {
 
 typedef struct s_cmd {
     t_simple_cmd simple_cmd;
-    t_redirect redirect;
+    t_redirect *redirects;
 } t_cmd;
 
 #define CMD 0
@@ -76,12 +73,25 @@ typedef struct s_btree {
 } t_btree;
 
 /*
- * parser
+ * parser lexical analysis
  */
+char	**tokenizer(t_list *env, char *line);
 int 	lexical_analysis(t_list *env, char *line, t_token_info *token_info);
 int    tokenizer_split(char *line, t_token_info *token_info);
 void	convert_env(t_list *env, t_token_info *token_info);
 void    set_tokenizer_type(t_token_info *token_info);
+
+/*
+ * parser syntax analysis
+ */
+int syntax_analysis(t_token_info tokens, t_btree *root);
+int syntax_pipeline(t_token_info tokens, int idx);
+int syntax_cmd(t_token_info tokens, int idx);
+int syntax_simple_cmd(t_token_info tokens, int idx);
+int syntax_args(t_token_info tokens, int idx, char **args, int depth);
+int syntax_redirects(t_token_info tokens, int idx);
+int syntax_io_redirect(t_token_info tokens, int idx);
+
 /*
  * env utils
  */
