@@ -7,10 +7,18 @@
 
 #include "minishell.h"
 
+char *get_current_path(void)
+{
+	char *current_path;
+
+	current_path = getcwd(NULL, 0);
+	return (current_path);
+}
+
 char *ft_pwd()
 {
 	char *current_path;
 
-	current_path = NULL;
+	current_path = getcwd(NULL, 0);
 	return (current_path);	// 현재 디렉토리 경로 리턴
 }

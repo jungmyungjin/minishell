@@ -1,33 +1,23 @@
 #include "minishell.h"
 
-char *find_value_by_key(t_list *env, char *env_key)
+t_env *find_env_by_key(t_list *env, char *env_key)
 {
-	char *result;
 	t_list *my_env;
 
-	result = NULL;
 	my_env = env;
 	while (my_env)
 	{
 		if (ft_strcmp(((t_env*)my_env->content)->key, env_key) == 0)
-		{
-			result = ft_strdup(((t_env*)my_env->content)->value);
-			if (result == NULL)
-				allocation_error();
-			break;
-		}
+			return (my_env->content);
 		my_env = my_env->next;
 	}
-	if (result == NULL)
-		result = ft_strdup("");
-	if (result == NULL)
-		allocation_error();
-	return result;
+	return (NULL);
 }
 
 char *get_env_value(t_list *env, char *env_key)
 {
 	char *result;
+	t_env *found_env;
 
 	// 특수변수 예외처리
 	if (ft_strcmp(env_key, "$?"))
@@ -36,7 +26,12 @@ char *get_env_value(t_list *env, char *env_key)
 		// 이전명령어의 결과값 출력
 	}
 
-	result = find_value_by_key(env, env_key);
-
+	found_env = find_env_by_key(env, env_key);
+	if (found_env == NULL)
+		result = ft_strdup("");
+	else
+		result = ft_strdup(found_env->value);
+	if (result == NULL)
+		allocation_error();
 	return result;
 }
