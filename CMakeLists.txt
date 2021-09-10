@@ -86,6 +86,9 @@ add_executable(
         src/env/unset_env.c
         src/env/check_env_key.c
         src/execute/external.c
-        src/env/env_path.c)
+        src/env/env_path.c
+        src/parse/syntax_analysis.c
+        src/parse/tokenizer_type.c
+)
 
 target_link_libraries(minishell readline)
