@@ -4,7 +4,7 @@
 char *parser(t_list *env, char *line)
 {
     t_token_info tokens;
-    t_btree root;
+    t_ast *root;
     int result;
 
     result = lexical_analysis(env, line, &tokens);
@@ -15,8 +15,9 @@ char *parser(t_list *env, char *line)
         printf("index: %d, str: %s, type: %d\n", i, tokens.tokens[i].str, tokens.tokens[i].type);
 
     // 문법 체크 및 tree 로
+    root = NULL;
     result = syntax_analysis(tokens, &root);
-    if (result == -1) // 문법 체크 실패
+    if (result == -1 || root == NULL) // 문법 체크 실패
         return (NULL);
     // tokens_free(tokens);
     return NULL;
