@@ -26,3 +26,15 @@ int lexical_analysis(t_list *env, char *line, t_token_info *token_info)
     return (0);
 }
 
+void free_tokens(t_token_info *token_info)
+{
+    int i;
+
+    i = 0;
+    while (i < token_info->count)
+    {
+        free(token_info->tokens[i].str);
+        i++;
+    }
+    free(token_info->tokens);
+}

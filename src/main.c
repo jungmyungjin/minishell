@@ -19,7 +19,9 @@ char *parser(t_list *env, char *line)
     result = syntax_analysis(tokens, &root);
     if (result == -1 || root == NULL) // 문법 체크 실패
         return (NULL);
-    // tokens_free(tokens);
+
+    free_tokens(&tokens);
+    free_tree(&root);
     return NULL;
 }
 

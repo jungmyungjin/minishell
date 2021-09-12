@@ -5,7 +5,7 @@ t_ast	*new_ast(void *item, int type)
 {
     t_ast *new;
 
-    new = malloc(sizeof(t_ast));
+    new = (t_ast *)malloc(sizeof(t_ast));
     if (new == NULL)
         allocation_error();
     new->left = NULL;

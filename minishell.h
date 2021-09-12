@@ -73,6 +73,7 @@ int 	lexical_analysis(t_list *env, char *line, t_token_info *token_info);
 int    tokenizer_split(char *line, t_token_info *token_info);
 void	convert_env(t_list *env, t_token_info *token_info);
 void    set_tokenizer_type(t_token_info *token_info);
+void    free_tokens(t_token_info *token_info);
 
 /*
  * parser syntax analysis
@@ -86,6 +87,7 @@ int syntax_redirects(t_token_info tokens, int idx, t_ast **node);
 int syntax_io_redirect(t_token_info tokens, int idx, t_ast **node);
 
 t_ast	*new_ast(void *item, int type);
+void free_tree(t_ast **node);
 
 /*
  * env utils
