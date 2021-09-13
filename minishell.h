@@ -86,6 +86,14 @@ int syntax_args(t_token_info tokens, int idx, char **args, int depth);
 int syntax_redirects(t_token_info tokens, int idx, t_ast **node);
 int syntax_io_redirect(t_token_info tokens, int idx, t_ast **node);
 
+int syntax_pipeline_check(t_token_info tokens, int idx);
+int syntax_cmd_check(t_token_info tokens, int idx);
+int syntax_simple_cmd_check(t_token_info tokens, int idx);
+int syntax_redirects_check(t_token_info tokens, int idx);
+int syntax_io_redirect_check(t_token_info tokens, int idx);
+
+int redirect_type(char *str);
+
 t_ast	*new_ast(void *item, int type);
 void free_tree(t_ast **node);
 

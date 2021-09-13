@@ -90,6 +90,9 @@ add_executable(
         src/parse/syntax_analysis.c
         src/parse/tokenizer_type.c
         src/parse/ast_free.c
+        src/parse/syntax_check.c
+        src/parse/syntax_make_tree.c
+        src/parse/syntax_make_tree2.c
 )
 
 target_link_libraries(minishell readline)
