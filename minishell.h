@@ -38,39 +38,32 @@ typedef struct s_token_info {
 /*
  * AST
  */
+#define AST_PIPE 1 // '|'
+#define AST_CMD 2
+#define AST_SIMPLE_CMD 3
+#define AST_REDIRECTS 4 // '<'
+#define AST_REDIRECT 5
+typedef struct s_abstract_syntax_tree {
+    int type;
+    void *data;
+    struct s_abstract_syntax_tree *left;
+    struct s_abstract_syntax_tree *right;
+} t_ast;
+
 typedef struct s_simple_cmd {
     char *cmd_name;
     char **args;
 } t_simple_cmd;
 
 // https://www.gnu.org/software/bash/manual/html_node/Redirections.html
-# define INPUT 0 // <
-# define OUTPUT 1 // >
-# define HERE_DOCUMENTS 2 // <<
-# define APPENDING_OUTPUT 3// >>
+# define INPUT 1 // <
+# define OUTPUT 2 // >
+# define HERE_DOCUMENTS 3 // <<
+# define APPENDING_OUTPUT 4// >>
 typedef struct s_redirect {
     int type;
     char *filename;
 } t_redirect;
-
-typedef struct s_cmd {
-    t_simple_cmd simple_cmd;
-    t_redirect *redirects;
-} t_cmd;
-
-#define CMD 0
-#define PIPE 1 // '|'
-typedef struct s_abstract_syntax {
-    int type;
-    void *data;
-} t_as;
-
-// tree is contained in abstract_syntax
-typedef struct s_btree {
-    t_as *as;
-    struct s_btree *left;
-    struct s_btree *right;
-} t_btree;
 
 /*
  * parser lexical analysis
@@ -80,17 +73,21 @@ int 	lexical_analysis(t_list *env, char *line, t_token_info *token_info);
 int    tokenizer_split(char *line, t_token_info *token_info);
 void	convert_env(t_list *env, t_token_info *token_info);
 void    set_tokenizer_type(t_token_info *token_info);
+void    free_tokens(t_token_info *token_info);
 
 /*
  * parser syntax analysis
  */
-int syntax_analysis(t_token_info tokens, t_btree *root);
-int syntax_pipeline(t_token_info tokens, int idx);
-int syntax_cmd(t_token_info tokens, int idx);
-int syntax_simple_cmd(t_token_info tokens, int idx);
+int syntax_analysis(t_token_info tokens, t_ast **root);
+int syntax_pipeline(t_token_info tokens, int idx, t_ast **node);
+int syntax_cmd(t_token_info tokens, int idx, t_ast **node);
+int syntax_simple_cmd(t_token_info tokens, int idx, t_ast **node);
 int syntax_args(t_token_info tokens, int idx, char **args, int depth);
-int syntax_redirects(t_token_info tokens, int idx);
-int syntax_io_redirect(t_token_info tokens, int idx);
+int syntax_redirects(t_token_info tokens, int idx, t_ast **node);
+int syntax_io_redirect(t_token_info tokens, int idx, t_ast **node);
+
+t_ast	*new_ast(void *item, int type);
+void free_tree(t_ast **node);
 
 /*
  * env utils

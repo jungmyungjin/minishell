@@ -89,6 +89,7 @@ add_executable(
         src/env/env_path.c
         src/parse/syntax_analysis.c
         src/parse/tokenizer_type.c
+        src/parse/ast_free.c
 )
 
 target_link_libraries(minishell readline)
