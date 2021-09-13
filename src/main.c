@@ -18,8 +18,10 @@ char *parser(t_list *env, char *line)
     root = NULL;
     result = syntax_analysis(tokens, &root);
     if (result == -1 || root == NULL) // 문법 체크 실패
+    {
+        free_tokens(&tokens);
         return (NULL);
-
+    }
     free_tokens(&tokens);
     free_tree(&root);
     return NULL;
