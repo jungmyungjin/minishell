@@ -1,5 +1,42 @@
 #include "../minishell.h"
 
+// return
+// not found: NULL
+// found: full_path
+char *get_full_path(t_list *env, char *cmd)
+{
+    char *current_path;
+    char *full_path;
+
+    if (ft_strncmp("./",cmd,2) == 0)
+    {
+        cmd = ft_substr(cmd, 2, ft_strlen(cmd) - 2);
+        current_path = get_current_path();
+        full_path = ft_strjoin(current_path, ft_strdup("/"));
+        full_path = ft_strjoin(full_path,cmd);
+    }
+    else
+    {
+        full_path = get_full_path_by_env(env, cmd);
+    }
+    return(full_path);
+}
+
+void set_simple_cmd_full_path(t_list *env, t_simple_cmd *simple_cmd)
+{
+    simple_cmd->file_path = get_full_path_by_env(env, simple_cmd->original);
+}
+
+void set_full_path_in_tree(t_list *env, t_ast *node)
+{
+    if (node->left != NULL)
+        set_full_path_in_tree(env, node->left);
+    if (node->right != NULL)
+        set_full_path_in_tree(env, node->right);
+    if (node->type == AST_SIMPLE_CMD)
+        set_simple_cmd_full_path(env, node->data);
+}
+
 // tree 형태로 파싱
 t_ast *parser(t_list *env, char *line)
 {
@@ -22,6 +59,7 @@ t_ast *parser(t_list *env, char *line)
         free_tokens(&tokens);
         return (NULL);
     }
+    set_full_path_in_tree(env, root);
     free_tokens(&tokens);
     return root;
 }
