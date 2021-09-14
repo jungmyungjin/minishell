@@ -93,6 +93,8 @@ add_executable(
         src/parse/syntax_check.c
         src/parse/syntax_make_tree.c
         src/parse/syntax_make_tree2.c
+        src/execute/execute_tree.c
+        src/execute/execv_built_in.c
 )
 
 target_link_libraries(minishell readline)

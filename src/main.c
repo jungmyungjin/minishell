@@ -1,7 +1,7 @@
 #include "../minishell.h"
 
 // tree 형태로 파싱
-char *parser(t_list *env, char *line)
+t_ast *parser(t_list *env, char *line)
 {
     t_token_info tokens;
     t_ast *root;
@@ -23,19 +23,23 @@ char *parser(t_list *env, char *line)
         return (NULL);
     }
     free_tokens(&tokens);
-    free_tree(&root);
-    return NULL;
+    return root;
 }
 
 
 void minishell_loop(t_list **env)
 {
 	char *line;
+	t_ast *root;
 
 	while (1){
 		line = readline(">> ");
-		parser(*env, line); // 파서 시작.
-		// macos 에서 해당 함수를 사용하기위해 make 설정을 해야함.
+		root = parser(*env, line); // 파서 시작.
+		if (root != NULL)
+		{
+		    search_tree(root, *env);
+		    free_tree(&root);
+		}
 		rl_replace_line("", 0);
 		add_history(line);
 		free(line);

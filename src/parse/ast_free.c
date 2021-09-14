@@ -6,15 +6,15 @@ void free_simple_cmd(t_simple_cmd *simple_cmd)
     int i;
 
     i = 0;
-    free(simple_cmd->cmd_name);
-    if (simple_cmd->args == NULL)
+    free(simple_cmd->original);
+    if (simple_cmd->argv == NULL)
         return ;
-    while (simple_cmd->args[i] != NULL)
+    while (simple_cmd->argv[i] != NULL)
     {
-        free(simple_cmd->args[i]);
+        free(simple_cmd->argv[i]);
         i++;
     }
-    free(simple_cmd->args);
+    free(simple_cmd->argv);
 }
 
 void free_redirect(t_redirect *redirect)

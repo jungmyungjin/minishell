@@ -51,8 +51,9 @@ typedef struct s_abstract_syntax_tree {
 } t_ast;
 
 typedef struct s_simple_cmd {
-    char *cmd_name;
-    char **args;
+    char *original; // [ls]
+    char *file_path; // found: [/bin/ls] / not found: [ls]
+    char **argv; // [/bin/ls, -al, NULL]
 } t_simple_cmd;
 
 // https://www.gnu.org/software/bash/manual/html_node/Redirections.html
@@ -82,7 +83,7 @@ int syntax_analysis(t_token_info tokens, t_ast **root);
 int syntax_pipeline(t_token_info tokens, int idx, t_ast **node);
 int syntax_cmd(t_token_info tokens, int idx, t_ast **node);
 int syntax_simple_cmd(t_token_info tokens, int idx, t_ast **node);
-int syntax_args(t_token_info tokens, int idx, char **args, int depth);
+int syntax_argv(t_token_info tokens, int idx, char **args, int depth);
 int syntax_redirects(t_token_info tokens, int idx, t_ast **node);
 int syntax_io_redirect(t_token_info tokens, int idx, t_ast **node);
 
@@ -156,6 +157,9 @@ t_env	*find_env_by_key(t_list *env, char *env_key);
 /*
  *  execute
  */
-int	exec_external(t_list *env);
+void execve_built_in(t_simple_cmd *simple_cmd, t_list *env);
+int	exec_external(t_simple_cmd *simple_cmd, t_list *env);
+void search_tree(t_ast *node, t_list *env);
+void execute_tree(t_ast *root, t_list *env);
 
 #endif
