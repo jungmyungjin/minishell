@@ -22,7 +22,9 @@ SRCS =  ./src/main.c \
 		./src/utils/ft_strcmp.c \
 		./src/exception/parse_exception.c \
 		./src/execute/external.c \
-		./src/env/env_path.c
+		./src/env/env_path.c \
+		./src/execute/execute_tree.c \
+        ./src/execute/execv_built_in.c
 
 
 CC = gcc

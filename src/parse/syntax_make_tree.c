@@ -70,9 +70,30 @@ int syntax_io_redirect(t_token_info tokens, int idx, t_ast **node)
     return (idx);
 }
 
-int syntax_simple_cmd(t_token_info tokens, int idx, t_ast **node)
+int add_simple_cmd_argv(t_token_info tokens, t_simple_cmd *simple_cmd, int idx)
 {
     int i;
+
+    if (tokens.tokens[idx + 1].type == T_WORD) // 커맨드 다음이 word 일경우
+    {
+        i = 0;
+        while (tokens.tokens[idx + i].type == T_WORD) // 2차원 배열 크기 할당
+            i++;
+        simple_cmd->argv = (char **)malloc(sizeof(char *) * (i + 1));
+        if (simple_cmd->argv == NULL)
+            allocation_error();
+        idx = syntax_argv(tokens, idx, simple_cmd->argv, 0);
+    }
+    else // 1 command = 1 argv
+    {
+        simple_cmd->argv = (char **)malloc(sizeof(char *) * (2));
+        idx = syntax_argv(tokens, idx, simple_cmd->argv, 0);
+    }
+    return idx;
+}
+
+int syntax_simple_cmd(t_token_info tokens, int idx, t_ast **node)
+{
     t_simple_cmd *simple_cmd;
 
     simple_cmd = (t_simple_cmd *)malloc(sizeof(t_simple_cmd));
@@ -80,22 +101,10 @@ int syntax_simple_cmd(t_token_info tokens, int idx, t_ast **node)
         allocation_error();
     if (tokens.tokens[idx].type == T_WORD) // cmd name
     {
-        simple_cmd->cmd_name = ft_strdup(tokens.tokens[idx].str);
-        if (simple_cmd->cmd_name == NULL)
+        simple_cmd->original = ft_strdup(tokens.tokens[idx].str);
+        if (simple_cmd->original == NULL)
             allocation_error();
-        idx++;
-        if (tokens.tokens[idx].type == T_WORD)
-        {
-            i = 0;
-            while (tokens.tokens[idx + i].type == T_WORD) // 2차원 배열 크기 할당
-                i++;
-            simple_cmd->args = (char **)malloc(sizeof(char *) * (i + 1));
-            if (simple_cmd->args == NULL)
-                allocation_error();
-            idx = syntax_args(tokens, idx, simple_cmd->args, 0);
-        }
-        else
-            simple_cmd->args = NULL; // args가 없음.
+        idx = add_simple_cmd_argv(tokens, simple_cmd, idx);
         *node = new_ast(simple_cmd, AST_SIMPLE_CMD);
     }
     else
@@ -104,7 +113,7 @@ int syntax_simple_cmd(t_token_info tokens, int idx, t_ast **node)
 }
 
 // args 리턴
-int syntax_args(t_token_info tokens, int idx, char **args, int depth)
+int syntax_argv(t_token_info tokens, int idx, char **args, int depth)
 {
     char *str;
 
@@ -120,7 +129,7 @@ int syntax_args(t_token_info tokens, int idx, char **args, int depth)
     // <args> WORD
     idx++;
     if (tokens.tokens[idx].type == T_WORD)
-        idx = syntax_args(tokens, idx, args, depth + 1);
+        idx = syntax_argv(tokens, idx, args, depth + 1);
     else
         args[depth + 1] = NULL;
     return idx;

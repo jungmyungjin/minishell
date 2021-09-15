@@ -1,26 +1,7 @@
 
 #include "minishell.h"
 
-char *get_full_path(t_list *env, char *cmd)
-{
-	char *current_path;
-	char *full_path;
-
-	if (ft_strncmp("./",cmd,2) == 0)
-	{
-		cmd = ft_substr(cmd, 2, ft_strlen(cmd) - 2);
-		current_path = get_current_path();
-		full_path = ft_strjoin(current_path, ft_strdup("/"));
-		full_path = ft_strjoin(full_path,cmd);
-	}
-	else
-	{
-		full_path = get_full_path_by_env(env, cmd);
-	}
-	return(full_path);
-}
-
-int	exec_external(t_list *env)
+int	exec_external(t_simple_cmd *simple_cmd, t_list *env)
 {
 	extern char **environ;
 	char *file_path;
@@ -30,7 +11,7 @@ int	exec_external(t_list *env)
 	int status;
 
 //	cmd = ft_strdup("./test");
-	file_path = get_full_path(env, cmd);
+//	file_path = get_full_path(env, cmd);
 
 	// 값을 입력함 -----------------------------------
 //	argv = (char**)malloc(sizeof(char*) * 3);
