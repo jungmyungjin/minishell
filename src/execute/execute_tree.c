@@ -33,7 +33,7 @@ void execute_tree(t_ast *node, t_list *env)
     if (node->type == AST_CMD)
         ;//execute_cmd();
     if (node->type == AST_SIMPLE_CMD)
-        ;//exec_run_type(node, env);
+        exec_run_type(node, env);
 }
 
 // 전위 탐색
