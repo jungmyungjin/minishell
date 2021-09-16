@@ -13,9 +13,13 @@ char *make_export_string(t_list *list_env, char *target_key)
 	target_env = find_env_by_key(list_env, target_key);
 	line = ft_strjoin(line, ft_strdup("declare -x "));
 	line = ft_strjoin(line, ft_strdup(target_env->key));
-	line = ft_strjoin(line, ft_strdup("=\""));
-	line = ft_strjoin(line, ft_strdup(target_env->value));
-	line = ft_strjoin(line, ft_strdup("\"\n"));
+	if (target_env->value)
+	{
+		line = ft_strjoin(line, ft_strdup("=\""));
+		line = ft_strjoin(line, ft_strdup(target_env->value));
+		line = ft_strjoin(line, ft_strdup("\""));
+	}
+	line = ft_strjoin(line, ft_strdup("\n"));
 	return (line);
 }
 
@@ -61,21 +65,49 @@ char *show_env_by_export(t_list *env)
 	return	(result);
 }
 
-// 파이프 및 리다이렉션에 따라 어떻게 리턴할지 달라짐
-void ft_export(t_list **env, char *key, char *value)
+void	div_key_value(char *arg, char **key, char **value)
 {
-	if (key == NULL)
-	{
-		// 임시 코드
-		printf("%s",show_env_by_export(*env));
-		return;
-	}
-	else if (check_env_key(key))
-	{
-		env_key_error("export", key);
-		return;
-	}
+	int separator_idx;
+
+	separator_idx = 0;
+	while(arg[separator_idx] && arg[separator_idx] != '=' )
+		separator_idx++;
+
+	*key = ft_substr(arg, 0, separator_idx);
+	if (ft_strlen(arg) - separator_idx)
+		*value = ft_substr(arg, separator_idx + 1, ft_strlen(arg) - separator_idx);
 	else
-		set_env(env, key, value);
+		*value = NULL;
 }
 
+// 파이프 및 리다이렉션에 따라 어떻게 리턴할지 달라짐
+void ft_export(t_simple_cmd *simple_cmd, t_list *env)
+{
+	int idx;
+	char *key;
+	char *value;
+
+	// 규칙1 : key=value 타입이 아니면 저장하지 않는다.
+	// 규칙2 : key=value 타입이 아닌경우, key에 대한 규칙을 확인하긴 한다.
+
+	idx = 0;
+
+	// 환경변수 정보 출력
+	if (simple_cmd->argv[1] == NULL)
+	{
+		printf("%s",show_env_by_export(env));
+		return;
+	}
+	while(simple_cmd->argv[++idx])
+	{
+		key = NULL;
+		value = NULL;
+		div_key_value(simple_cmd->argv[idx], &key, &value);
+		if (check_env_key(key))
+		{
+			env_key_error("export", key);
+		}
+		else
+			set_env(&env, key, value);
+	}
+}

@@ -15,7 +15,7 @@ char *get_current_path(void)
 	return (current_path);
 }
 
-char *ft_pwd()
+char *ft_pwd(t_simple_cmd *simple_cmd, t_list *env)
 {
 	char *current_path;
 
