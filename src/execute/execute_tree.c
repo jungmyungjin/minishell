@@ -13,6 +13,10 @@ int	is_built_in(t_simple_cmd *simple_cmd)
         return (1);
     if (!ft_strcmp(simple_cmd->original, "pwd"))
         return (1);
+	if (!ft_strcmp(simple_cmd->original, "echo"))
+		return (1);
+	if (!ft_strcmp(simple_cmd->original, "exit"))
+		return (1);
     return (0);
 }
 

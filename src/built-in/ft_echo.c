@@ -10,5 +10,16 @@
 
 void ft_echo(t_simple_cmd *simple_cmd, t_list *env)
 {
+	char *contents;
+	int idx;
 
+	idx = 0;
+	contents = NULL;
+	while(simple_cmd->argv[++idx])
+	{
+		contents = ft_strjoin(contents, ft_strdup(simple_cmd->argv[idx]));
+		contents = ft_strjoin(contents, ft_strdup(" "));
+	}
+	if (contents)
+		printf("%s\n", contents);
 }

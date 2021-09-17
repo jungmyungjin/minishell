@@ -17,4 +17,6 @@ void execve_built_in(t_simple_cmd *simple_cmd, t_list *env)
 		ft_unset(simple_cmd, env);
 	if (!ft_strcmp(simple_cmd->original, "pwd"))
 		ft_pwd(simple_cmd, env);
+	if (!ft_strcmp(simple_cmd->original, "echo"))
+		ft_echo(simple_cmd, env);
 }
