@@ -8,7 +8,8 @@ void free_env_list(t_list** target)
 {
 	free(((t_env*)((*target)->content))->origin_text);
 	free(((t_env*)((*target)->content))->key);
-	free(((t_env*)((*target)->content))->value);
+	if (((t_env*)((*target)->content))->value != NULL)
+		free(((t_env*)((*target)->content))->value);
 	free(((*target)->content));
 	(*target)->next = NULL;
 	free(*target);
