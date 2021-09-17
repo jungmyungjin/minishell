@@ -10,12 +10,9 @@
 // cd 명령어는 '무조건' 첫번째 인자값만 인식한다.
 void	ft_cd(t_simple_cmd *simple_cmd, t_list *env)
 {
-//	char	*target_path;
-//	int	rtn;
-//
-//	simple_cmd->argv[]
-//
-//	rtn = chdir( target_path );	// 경로 이동
-//	if(rtn == -1)	// 에러 케이스
-//		printf("%s\n", strerror(errno));	// 에러 출력
+	int	rtn;
+
+	rtn = chdir( simple_cmd->argv[1] );	// 경로 이동
+	if(rtn == -1)	// 에러 케이스
+		printf("%s\n", strerror(errno));	// 에러 출력
 }
