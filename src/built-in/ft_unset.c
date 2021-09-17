@@ -4,13 +4,22 @@
 
 #include "minishell.h"
 
-void ft_unset(t_list **env_list, char *target_key)
+void ft_unset(t_simple_cmd *simple_cmd, t_list *env)
 {
-	if (check_env_key(target_key))
-	{
-		env_key_error("unset", target_key);
-		return;
-	}
+	int idx;
+	char *key;
 
-	unset_env(env_list, target_key);
+	idx = -1;
+	if (simple_cmd->argv[1] == NULL)
+		return;
+	while(simple_cmd->argv[++idx])
+	{
+		key = simple_cmd->argv[++idx];
+		if (check_env_key(key))
+		{
+			env_key_error("unset", key);
+		}
+		else
+			unset_env(&env, key);
+	}
 }

@@ -4,6 +4,8 @@ SRCS =  ./src/main.c \
 		./src/built-in/ft_export.c \
 		./src/built-in/ft_pwd.c \
 		./src/built-in/ft_unset.c \
+		./src/built-in/ft_exit.c \
+		./src/built-in/ft_echo.c \
 		./src/parse/tokenizer.c \
 		./src/parse/tokenizer_env.c \
 		./src/parse/tokenizer_split.c \

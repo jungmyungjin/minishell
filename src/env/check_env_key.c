@@ -31,7 +31,7 @@ int	allowed_character(char *string)
 int	check_env_key(char *key)
 {
 	// 특수변수 예외처리
-	if (ft_strcmp(key, "$?"))
+	if (ft_strcmp(key, "$?") == 0)
 		return (1);
 
 	// 전체 key가 허용가능한 문자들로만 이루어졌는지 체크
