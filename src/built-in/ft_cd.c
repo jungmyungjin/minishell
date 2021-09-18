@@ -14,5 +14,5 @@ void	ft_cd(t_simple_cmd *simple_cmd, t_list *env)
 
 	rtn = chdir( simple_cmd->argv[1] );	// 경로 이동
 	if(rtn == -1)	// 에러 케이스
-		write(1, ft_strjoin(ft_strdup(strerror(errno)), ft_strdup("\n")), ft_strlen(strerror(errno)) + 1);
+		write(2, ft_strjoin(ft_strdup(strerror(errno)), ft_strdup("\n")), ft_strlen(strerror(errno)) + 1);
 }
