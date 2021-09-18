@@ -16,14 +16,13 @@ int syntax_cmd(t_token_info tokens, int idx, t_ast **node)
 {
     *node = new_ast(NULL, AST_CMD);
 
-    idx = syntax_simple_cmd(tokens, idx, &(*node)->left);
+    idx = syntax_simple_cmd(tokens, idx, &(*node)->right);
     if (idx == -1)
         return (-1); // 파싱 실패
     // 다음이 리다이렉션 < << > >> 일경우 , 시도
     if (tokens.tokens[idx].type == T_REDIRECT)
     {
-        // redirect 은 아직 미구현. idx는 리다이렉션 끝에서 반환.
-        idx = syntax_redirects(tokens, idx, &(*node)->right);
+        idx = syntax_redirects(tokens, idx, &(*node)->left);
         if (idx == -1)
             return (-1);
     }
