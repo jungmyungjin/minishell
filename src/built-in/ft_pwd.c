@@ -21,6 +21,7 @@ char *ft_pwd(t_simple_cmd *simple_cmd, t_list *env)
 	char *current_path;
 
 	current_path = getcwd(NULL, 0);
-	printf("%s\n", current_path);
+	current_path = ft_strjoin(current_path, ft_strdup("\n"));
+	write(1, current_path, ft_strlen(current_path));
 	return (current_path);	// 현재 디렉토리 경로 리턴
 }

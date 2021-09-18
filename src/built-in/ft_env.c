@@ -24,5 +24,5 @@ void ft_env(t_simple_cmd *simple_cmd, t_list *env)
 			allocation_error();
 		env = env->next;
 	}
-	printf("%s", result);
+	write(1, result, ft_strlen(result));
 }
