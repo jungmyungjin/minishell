@@ -8,7 +8,11 @@ char *get_full_path(t_list *env, char *cmd)
     char *current_path;
     char *full_path;
 
-    if (ft_strncmp("./",cmd,2) == 0)
+    if (ft_strncmp(cmd, "/", 1) == 0)
+	{
+		full_path = ft_strdup(cmd);
+	}
+    else if (ft_strncmp("./", cmd, 2) == 0)
     {
         cmd = ft_substr(cmd, 2, ft_strlen(cmd) - 2);
         current_path = get_current_path();
@@ -24,7 +28,7 @@ char *get_full_path(t_list *env, char *cmd)
 
 void set_simple_cmd_full_path(t_list *env, t_simple_cmd *simple_cmd)
 {
-    simple_cmd->file_path = get_full_path_by_env(env, simple_cmd->original);
+    simple_cmd->file_path = get_full_path(env, simple_cmd->original);
 }
 
 void set_full_path_in_tree(t_list *env, t_ast *node)
