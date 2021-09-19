@@ -48,6 +48,10 @@ int	exec_external(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
 		{	// 부모프로세스는 자식프로세스가 종료될때 까지 기다린다
 			wpid = waitpid(pid, &status, WUNTRACED);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
+		if (mcb->fd_input != STDIN_FILENO)
+		    printf("close input %d\n", close(mcb->fd_input));
+		if (mcb->fd_output != STDOUT_FILENO)
+		    printf("close output %d\n", close(mcb->fd_output));
 	}
 	else
 	{
