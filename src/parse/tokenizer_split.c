@@ -138,7 +138,7 @@ int tokenizer_split(char *line, t_token_info *token_info)
     if (*line == '\0')
         return (-1);
     token_info->count = counting_tokens(line);
-    printf("token count: %d\n", token_info->count);
+//    printf("token count: %d\n", token_info->count);
     token_info->tokens = (t_token *)malloc(sizeof(t_token) * (token_info->count + 1));
     if (token_info->tokens == NULL)
         allocation_error();

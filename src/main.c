@@ -52,8 +52,8 @@ t_ast *parser(t_list *env, char *line)
     if (result == -1) // 토큰화 실패.
         return (NULL);
 
-    for (int i = 0; i<=tokens.count; i++)
-        printf("index: %d, str: %s, type: %d\n", i, tokens.tokens[i].str, tokens.tokens[i].type);
+//    for (int i = 0; i<=tokens.count; i++)
+//        printf("index: %d, str: %s, type: %d\n", i, tokens.tokens[i].str, tokens.tokens[i].type);
 
     // 문법 체크 및 tree 로
     root = NULL;
@@ -69,17 +69,26 @@ t_ast *parser(t_list *env, char *line)
 }
 
 
+void init_mcb(t_mcb *mcb)
+{
+    mcb->next_pipe_check = 0;
+    mcb->fd_input = STDIN_FILENO;
+    mcb->fd_output = STDOUT_FILENO;
+}
+
 void minishell_loop(t_list **env)
 {
 	char *line;
 	t_ast *root;
+	t_mcb mcb;
 
 	while (1){
 		line = readline(">> ");
 		root = parser(*env, line); // 파서 시작.
 		if (root != NULL)
 		{
-		    search_tree(root, *env);
+		    init_mcb(&mcb);
+		    search_tree(root, *env, &mcb);
 		    free_tree(&root);
 		}
 		rl_replace_line("", 0);

@@ -11,6 +11,7 @@
 # include <errno.h> // variable errno
 # include "libft/libft.h"
 #include <sys/stat.h>
+#include <fcntl.h>
 
 # define SHELL_NAME "minishell"
 
@@ -65,6 +66,23 @@ typedef struct s_redirect {
     int type;
     char *filename;
 } t_redirect;
+
+/*
+ * execute cmd
+ */
+
+typedef struct s_minishell_control_block {
+
+    // pipe
+    int fd[2];
+    int next_pipe_check;
+
+    // heredocs
+    int heredoc_count;
+
+    int fd_input;
+    int fd_output;
+} t_mcb;
 
 /*
  * parser lexical analysis
@@ -161,8 +179,9 @@ t_env	*find_env_by_key(t_list *env, char *env_key);
  *  execute
  */
 void execve_built_in(t_simple_cmd *simple_cmd, t_list *env);
-int	exec_external(t_simple_cmd *simple_cmd, t_list *env);
-void search_tree(t_ast *node, t_list *env);
-void execute_tree(t_ast *root, t_list *env);
-
+int	exec_external(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb);
+void search_tree(t_ast *node, t_list *env, t_mcb *mcb);
+void execute_tree(t_ast *root, t_list *env, t_mcb *mcb);
+void execute_redirect(t_redirect *redirect, t_mcb *mcb);
+void init_mcb(t_mcb *mcb);
 #endif
