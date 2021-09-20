@@ -15,6 +15,9 @@
 
 # define SHELL_NAME "minishell"
 
+#define READ_END 0
+#define WRITE_END 1
+
 int main(int argc, char *argv[], char *envp[]);
 
 /*
@@ -75,7 +78,10 @@ typedef struct s_minishell_control_block {
 
     // pipe
     int fd[2];
-    int next_pipe_check;
+    int pipe_read_end;
+    int pipe_write_end;
+    int next_pipe_check; // fd[input] => fd[output]
+    int pre_pipe_check; //  fd[output] => fd[input]
 
     // heredocs
     int heredoc_count;

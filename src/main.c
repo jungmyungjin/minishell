@@ -72,6 +72,9 @@ t_ast *parser(t_list *env, char *line)
 void init_mcb(t_mcb *mcb)
 {
     mcb->next_pipe_check = 0;
+    mcb->pre_pipe_check = 0;
+    mcb->pipe_read_end = STDIN_FILENO;
+    mcb->pipe_write_end = STDOUT_FILENO;
     mcb->fd_input = STDIN_FILENO;
     mcb->fd_output = STDOUT_FILENO;
 }
