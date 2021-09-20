@@ -21,9 +21,32 @@ void redirect_input(char *filename, t_mcb *mcb)
     mcb->fd_input = open(filename, O_RDONLY);
 }
 
-void redirect_here(char *eof_keyword, t_mcb *mcb)
+void redirect_heredoc(char *eof_keyword, t_mcb *mcb)
 {
-    // todo: 구현 필요
+    char *line;
+    int fd[2];
+    int status;
+
+    status = pipe(fd);
+    if (status < 0)
+        exit(0); // todo
+    if (mcb->fd_input != STDIN_FILENO)
+        close(mcb->fd_input);
+    while (1)
+    {
+        line = readline("> ");
+        if (!strcmp(line, eof_keyword))
+        {
+            free(line);
+            break;
+        }
+        write(fd[WRITE_END], line, ft_strlen(line));
+        write(fd[WRITE_END], "\n", 1);
+        free(line);
+
+    }
+    close(fd[WRITE_END]);
+    mcb->fd_input = fd[READ_END];
 }
 
 void execute_redirect(t_redirect *redirect, t_mcb *mcb)
@@ -33,7 +56,7 @@ void execute_redirect(t_redirect *redirect, t_mcb *mcb)
     else if (redirect->type == INPUT)
         redirect_input(redirect->filename, mcb);
     else if (redirect->type == HERE_DOCUMENTS)
-        redirect_here(redirect->filename, mcb);
+        redirect_heredoc(redirect->filename, mcb);
     else if (redirect->type == APPENDING_OUTPUT)
         redirect_append(redirect->filename, mcb);
     if (mcb->fd_output < 0 || mcb->fd_input < 0) // 0 이하가 나오면 문제 가생긴것.
