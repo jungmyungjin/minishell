@@ -26,8 +26,9 @@ SRCS =  ./src/main.c \
 		./src/execute/external.c \
 		./src/env/env_path.c \
 		./src/execute/execute_tree.c \
-        ./src/execute/execv_built_in.c
-
+        ./src/execute/execv_built_in.c \
+        ./src/execute/execute_redirect.c \
+        ./src/signal/signal.c
 
 CC = gcc
 LIBFT = libft

@@ -11,6 +11,8 @@
 # include <errno.h> // variable errno
 # include "libft/libft.h"
 #include <sys/stat.h>
+#include <fcntl.h>
+#include <signal.h>
 
 # define SHELL_NAME "minishell"
 
@@ -133,7 +135,11 @@ void	ft_exit(t_simple_cmd *simple_cmd, t_list *env);
 
 char	*get_current_path(void);
 
-
+/*
+ * signal
+ */
+void set_signal();
+void sig_exit_shell();
 
 
 /*
