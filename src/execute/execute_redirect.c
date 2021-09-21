@@ -16,9 +16,17 @@ void redirect_append(char *filename, t_mcb *mcb)
 
 void redirect_input(char *filename, t_mcb *mcb)
 {
-    if (mcb->fd_input != STDIN_FILENO)
-        close(mcb->fd_input);
-    mcb->fd_input = open(filename, O_RDONLY);
+    int file_open;
+
+    file_open = open(filename, O_RDONLY);
+    if (file_open < 0)
+        ft_putendl_fd("FILE OPEN INPUT ERROR", STDERR_FILENO);
+    else
+    {
+        if (mcb->fd_input != STDIN_FILENO)
+            close(mcb->fd_input);
+        mcb->fd_input = file_open;
+    }
 }
 
 void redirect_heredoc(char *eof_keyword, t_mcb *mcb)
@@ -59,9 +67,9 @@ void execute_redirect(t_redirect *redirect, t_mcb *mcb)
         redirect_heredoc(redirect->filename, mcb);
     else if (redirect->type == APPENDING_OUTPUT)
         redirect_append(redirect->filename, mcb);
-    if (mcb->fd_output < 0 || mcb->fd_input < 0) // 0 이하가 나오면 문제 가생긴것.
+    if (mcb->fd_output < 0) // 0 이하가 나오면 문제 가생긴것.
     {
-        ft_putendl_fd("FILE ERROR", STDERR_FILENO);
-        exit(1); // todo: return 할지 종료할지 결졍 필요.
+        ft_putendl_fd("FILE OPEN OUTPUT ERROR", STDERR_FILENO);
+        exit(1); // todo: return  cat < 사애 오류.
     }
 }
