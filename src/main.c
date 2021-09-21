@@ -85,8 +85,11 @@ void minishell_loop(t_list **env)
 	t_ast *root;
 	t_mcb mcb;
 
+	set_signal();
 	while (1){
 		line = readline(">> ");
+		if (line == NULL)
+		    sig_exit_shell();
 		root = parser(*env, line); // 파서 시작.
 		if (root != NULL)
 		{
