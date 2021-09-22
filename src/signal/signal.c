@@ -3,10 +3,19 @@
 
 void sig_new_line(int status)
 {
-    printf("\n"); // Move to a new line
-    rl_on_new_line(); // 새로운 라인 만들기 >>
-    rl_replace_line("", 0); // 기존 라인을 지움.
-    rl_redisplay();
+    if (g_child == 0)
+    {
+        printf("\n");
+        rl_on_new_line(); // 새로운 라인 만들기
+        rl_replace_line("", 0); // 기존 라인을 지움.
+        rl_redisplay();
+    }
+    else
+    {
+        printf("\n");
+        rl_on_new_line();
+        rl_replace_line("", 0);
+    }
 }
 
 void sig_exit_shell()

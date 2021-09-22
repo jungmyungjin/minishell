@@ -22,10 +22,12 @@ int	is_built_in(t_simple_cmd *simple_cmd)
 
 void exec_run_type(t_ast *node, t_list *env, t_mcb *mcb)
 {
+    g_child = 1;
     if (is_built_in(node->data))
         execve_built_in(node->data, env);
     else
         exec_external(node->data, env, mcb);
+    g_child = 0;
 }
 
 void init_mcb_in_execute(t_mcb *mcb)

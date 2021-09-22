@@ -19,6 +19,9 @@
 #define READ_END 0
 #define WRITE_END 1
 
+// global 변수.
+int g_child;
+
 int main(int argc, char *argv[], char *envp[]);
 
 /*
