@@ -95,6 +95,10 @@ add_executable(
         src/parse/syntax_make_tree2.c
         src/execute/execute_tree.c
         src/execute/execv_built_in.c
-        src/built-in/ft_echo.c src/built-in/ft_exit.c)
+        src/built-in/ft_echo.c
+        src/built-in/ft_exit.c
+        src/execute/execute_redirect.c
+        src/signal/signal.c
+)
 
 target_link_libraries(minishell readline)

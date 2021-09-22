@@ -11,8 +11,16 @@
 # include <errno.h> // variable errno
 # include "libft/libft.h"
 #include <sys/stat.h>
+#include <fcntl.h>
+#include <signal.h>
 
 # define SHELL_NAME "minishell"
+
+#define READ_END 0
+#define WRITE_END 1
+
+// global 변수.
+int g_child;
 
 int main(int argc, char *argv[], char *envp[]);
 
@@ -65,6 +73,26 @@ typedef struct s_redirect {
     int type;
     char *filename;
 } t_redirect;
+
+/*
+ * execute cmd
+ */
+
+typedef struct s_minishell_control_block {
+
+    // pipe
+    int fd[2];
+    int pipe_read_end;
+    int pipe_write_end;
+    int next_pipe_check; // fd[input] => fd[output]
+    int pre_pipe_check; //  fd[output] => fd[input]
+
+    // heredocs
+    int heredoc_count;
+
+    int fd_input;
+    int fd_output;
+} t_mcb;
 
 /*
  * parser lexical analysis
@@ -133,7 +161,11 @@ void	ft_exit(t_simple_cmd *simple_cmd, t_list *env);
 
 char	*get_current_path(void);
 
-
+/*
+ * signal
+ */
+void set_signal();
+void sig_exit_shell();
 
 
 /*
@@ -161,8 +193,9 @@ t_env	*find_env_by_key(t_list *env, char *env_key);
  *  execute
  */
 void execve_built_in(t_simple_cmd *simple_cmd, t_list *env);
-int	exec_external(t_simple_cmd *simple_cmd, t_list *env);
-void search_tree(t_ast *node, t_list *env);
-void execute_tree(t_ast *root, t_list *env);
-
+int	exec_external(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb);
+void search_tree(t_ast *node, t_list *env, t_mcb *mcb);
+void execute_tree(t_ast *root, t_list *env, t_mcb *mcb);
+void execute_redirect(t_redirect *redirect, t_mcb *mcb);
+void init_mcb(t_mcb *mcb);
 #endif
