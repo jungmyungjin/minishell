@@ -86,7 +86,8 @@ void minishell_loop(t_list **env)
 	t_mcb mcb;
 
 	set_signal();
-	while (1){
+	while (1)
+	{
 		line = readline(">> ");
 		if (line == NULL)
 		    sig_exit_shell();
@@ -97,8 +98,8 @@ void minishell_loop(t_list **env)
 		    search_tree(root, *env, &mcb);
 		    free_tree(&root);
 		}
-		rl_replace_line("", 0);
-		add_history(line);
+		if (ft_strcmp(line, ""))
+		    add_history(line); // up down key
 		free(line);
 	}
 }
