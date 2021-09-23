@@ -101,14 +101,17 @@ void convert_env(t_list *env, t_token_info *token_info)
     i = 0;
     while (i < token_info->count)
     {
-        start_dollar = is_token_in_env(token_info->tokens[i].str);
-        if (start_dollar != -1)
+        if (token_info->tokens[i].type != T_SINGLE_QUOTES)
         {
-            end_dollar = find_dollar_end(token_info->tokens[i].str, start_dollar + 1);
-            new_str = create_new_str(env, token_info->tokens[i].str, start_dollar, end_dollar);
-            free(token_info->tokens[i].str);
-            token_info->tokens[i].str = new_str;
-            continue; // 조건에 맞는 env 가 나오지 않을때까지 계속 토큰 반복
+            start_dollar = is_token_in_env(token_info->tokens[i].str);
+            if (start_dollar != -1)
+            {
+                end_dollar = find_dollar_end(token_info->tokens[i].str, start_dollar + 1);
+                new_str = create_new_str(env, token_info->tokens[i].str, start_dollar, end_dollar);
+                free(token_info->tokens[i].str);
+                token_info->tokens[i].str = new_str;
+                continue; // 조건에 맞는 env 가 나오지 않을때까지 계속 토큰 반복
+            }
         }
         i++;
     }
