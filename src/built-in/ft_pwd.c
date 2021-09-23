@@ -16,12 +16,12 @@ char *get_current_path(void)
 }
 
 // pwd는 인자값을 모두 무시한다.
-char *ft_pwd(t_simple_cmd *simple_cmd, t_list *env)
+void	ft_pwd(t_simple_cmd *simple_cmd, t_list *env)
 {
-	char *current_path;
+	char *output;
 
-	current_path = getcwd(NULL, 0);
-	current_path = ft_strjoin(current_path, ft_strdup("\n"));
-	write(1, current_path, ft_strlen(current_path));
-	return (current_path);	// 현재 디렉토리 경로 리턴
+	output = getcwd(NULL, 0);
+	output = ft_strjoin(output, ft_strdup("\n"));
+	write(1, output, ft_strlen(output));
+	free(output);
 }

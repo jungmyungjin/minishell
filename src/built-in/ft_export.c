@@ -86,6 +86,7 @@ void ft_export(t_simple_cmd *simple_cmd, t_list *env)
 	int idx;
 	char *key;
 	char *value;
+	char *output;
 
 	// 규칙1 : key=value 타입이 아니면 저장하지 않는다.
 	// 규칙2 : key=value 타입이 아닌경우, key에 대한 규칙을 확인하긴 한다.
@@ -95,7 +96,8 @@ void ft_export(t_simple_cmd *simple_cmd, t_list *env)
 	// 환경변수 정보 출력
 	if (simple_cmd->argv[1] == NULL)
 	{
-		printf("%s",show_env_by_export(env));
+		output = show_env_by_export(env);
+		write(1, output, ft_strlen(output));
 		return;
 	}
 	while(simple_cmd->argv[++idx])

@@ -154,7 +154,7 @@ void env_key_error(char *cmd, char *arg);
 void	ft_cd(t_simple_cmd *simple_cmd, t_list *env);
 void	ft_env(t_simple_cmd *simple_cmd, t_list *env);
 void	ft_export(t_simple_cmd *simple_cmd, t_list *env);
-char	*ft_pwd(t_simple_cmd *simple_cmd, t_list *env);
+void	ft_pwd(t_simple_cmd *simple_cmd, t_list *env);
 void	ft_unset(t_simple_cmd *simple_cmd, t_list *env);
 void	ft_echo(t_simple_cmd *simple_cmd, t_list *env);
 void	ft_exit(t_simple_cmd *simple_cmd, t_list *env);

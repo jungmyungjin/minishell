@@ -7,6 +7,8 @@ void free_simple_cmd(t_simple_cmd *simple_cmd)
 
     i = 0;
     free(simple_cmd->original);
+	if (simple_cmd->file_path != NULL)
+		free(simple_cmd->file_path);
     if (simple_cmd->argv == NULL)
         return ;
     while (simple_cmd->argv[i] != NULL)
