@@ -10,13 +10,13 @@
 
 void ft_echo(t_simple_cmd *simple_cmd, t_list *env)
 {
-	char *contents;
+	char *output;
 	int idx;
 	int used_newline;
 
 	idx = 0;
 	used_newline = 1;
-	contents = NULL;
+	output = NULL;
 	if (ft_strcmp(simple_cmd->argv[1], "-n") == 0)
 	{
 		used_newline = 0;
@@ -24,11 +24,14 @@ void ft_echo(t_simple_cmd *simple_cmd, t_list *env)
 	}
 	while(simple_cmd->argv[++idx])
 	{
-		contents = ft_strjoin(contents, ft_strdup(simple_cmd->argv[idx]));
-		contents = ft_strjoin(contents, ft_strdup(" "));
+		output = ft_strjoin(output, ft_strdup(simple_cmd->argv[idx]));
+		output = ft_strjoin(output, ft_strdup(" "));
 	}
-	if (contents)
-		write(1, contents, ft_strlen(contents));
+	if (output != NULL)
+	{
+		write(1, output, ft_strlen(output));
+		free(output);
+	}
 	if (used_newline)
 		write(1, "\n", 1);
 }

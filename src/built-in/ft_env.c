@@ -6,11 +6,11 @@
 
 void ft_env(t_simple_cmd *simple_cmd, t_list *env)
 {
-	char *result;
+	char *output;
 	char *line;
 
 	line = NULL;
-	result = NULL;
+	output = NULL;
 	while(env)
 	{
 		if (((t_env*)(env->content))->value == NULL)
@@ -19,10 +19,11 @@ void ft_env(t_simple_cmd *simple_cmd, t_list *env)
 			continue;
 		}
 		line = ft_strjoin(ft_strdup(((t_env*)(env->content))->origin_text), ft_strdup("\n"));
-		result = ft_strjoin(result, line);
-		if (line == NULL || result == NULL)
+		output = ft_strjoin(output, line);
+		if (line == NULL || output == NULL)
 			allocation_error();
 		env = env->next;
 	}
-	write(1, result, ft_strlen(result));
+	write(1, output, ft_strlen(output));
+	free(output);
 }

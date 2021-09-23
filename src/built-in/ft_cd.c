@@ -11,8 +11,12 @@
 void	ft_cd(t_simple_cmd *simple_cmd, t_list *env)
 {
 	int	rtn;
+	char *output;
 
 	rtn = chdir( simple_cmd->argv[1] );	// 경로 이동
+	output = ft_strjoin(ft_strdup(strerror(errno)), ft_strdup("\n"));
 	if(rtn == -1)	// 에러 케이스
-		write(2, ft_strjoin(ft_strdup(strerror(errno)), ft_strdup("\n")), ft_strlen(strerror(errno)) + 1);
+		write(2, output, ft_strlen(output) + 1);
+	if(output)
+		free(output);
 }

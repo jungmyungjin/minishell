@@ -21,6 +21,7 @@ char	**get_env_path(t_list *env)
 
 	raw_path = get_env_value(env, "PATH");
 	paths = ft_split(raw_path, ":");
+	free(raw_path);
 	return(paths);
 }
 
