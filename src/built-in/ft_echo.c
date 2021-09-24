@@ -34,5 +34,6 @@ void ft_echo(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
 	}
 	if (used_newline)
 		write(mcb->fd_output, "\n", 1);
-	exit(0);
+	global.rtn = 0;
+	exit(global.rtn);
 }

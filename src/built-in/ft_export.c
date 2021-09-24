@@ -112,5 +112,6 @@ void ft_export(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
 		else
 			set_env(&env, key, value);
 	}
-	exit(0);
+	global.rtn = 0;
+	exit(global.rtn);
 }

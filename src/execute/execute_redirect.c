@@ -20,7 +20,10 @@ void redirect_input(char *filename, t_mcb *mcb)
 
     file_open = open(filename, O_RDONLY);
     if (file_open < 0)
-        ft_putendl_fd("FILE OPEN INPUT ERROR", STDERR_FILENO);
+    {
+		ft_putendl_fd("FILE OPEN INPUT ERROR", STDERR_FILENO);
+		global.rtn = 1;
+	}
     else
     {
         if (mcb->fd_input != STDIN_FILENO)

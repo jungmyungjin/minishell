@@ -19,5 +19,5 @@ void	ft_cd(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
 		write(2, output, ft_strlen(output) + 1);
 	if(output)
 		free(output);
-	exit(0);
+	global.rtn = 0;
 }

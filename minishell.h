@@ -20,7 +20,13 @@
 #define WRITE_END 1
 
 // global 변수.
-int g_child;
+//int g_child;
+
+typedef struct s_common {
+	int child;
+	int rtn;
+} g_common;
+g_common global;
 
 int main(int argc, char *argv[], char *envp[]);
 

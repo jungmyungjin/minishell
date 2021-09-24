@@ -22,5 +22,6 @@ void ft_unset(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
 		else
 			unset_env(&env, key);
 	}
-	exit(0);
+	global.rtn = 0;
+	exit(global.rtn);
 }

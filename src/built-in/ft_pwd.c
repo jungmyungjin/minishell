@@ -24,5 +24,6 @@ void	ft_pwd(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
 	output = ft_strjoin(output, ft_strdup("\n"));
 	write(mcb->fd_output, output, ft_strlen(output));
 	free(output);
-	exit(0);
+	global.rtn = 0;
+	exit(global.rtn);
 }

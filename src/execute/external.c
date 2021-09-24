@@ -62,9 +62,10 @@ void	execute_command(t_ast *node, t_list *env, t_mcb *mcb)
 	if (!ft_strcmp(((t_simple_cmd*)node->data)->original, "exit"))
 	{
 		ft_exit(node->data, env, mcb);
+		return ;
 	}
 
-	g_child = 1;
+	global.child = 1;
 	pid = fork();	// 새로운 자식 프로세스 생성
 	if (pid == 0)	// 자식 프로세스
 	{
@@ -76,8 +77,9 @@ void	execute_command(t_ast *node, t_list *env, t_mcb *mcb)
 		{
 			if (execve(((t_simple_cmd*)node->data)->file_path, ((t_simple_cmd*)node->data)->argv, environ) == -1)	// 바이너리 교체 실패
 			{
+				global.rtn = 127;
 				ft_putendl_fd("ERROR", STDERR_FILENO);
-				exit(EXIT_FAILURE);
+				exit(global.rtn);
 			}
 		}
 	}
@@ -90,8 +92,10 @@ void	execute_command(t_ast *node, t_list *env, t_mcb *mcb)
 		exec_external_close_pipe(mcb);
 	}
 	else
+	{
 		ft_putendl_fd("ERROR", STDERR_FILENO);
+	}
 	exec_external_file_close(mcb);
 
-	g_child = 0;
+	global.child = 0;
 }

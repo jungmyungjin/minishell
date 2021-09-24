@@ -3,7 +3,7 @@
 
 void sig_new_line(int status)
 {
-    if (g_child == 0)
+    if (global.child == 0)
     {
         printf("\n");
         rl_on_new_line(); // 새로운 라인 만들기
@@ -16,6 +16,7 @@ void sig_new_line(int status)
         rl_on_new_line();
         rl_replace_line("", 0);
     }
+	global.rtn = 130;
 }
 
 void sig_exit_shell()

@@ -11,5 +11,5 @@
 
 void ft_exit(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
 {
-	exit(0);
+	exit(global.rtn);
 }
