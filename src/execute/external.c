@@ -54,12 +54,17 @@ void exec_external_close_pipe(t_mcb *mcb)
 
 void	execute_command(t_ast *node, t_list *env, t_mcb *mcb)
 {
-	g_child = 1;
 	extern char **environ;
 	pid_t pid;
 	pid_t wpid;
 	int status;
 
+	if (!ft_strcmp(((t_simple_cmd*)node->data)->original, "exit"))
+	{
+		ft_exit(node->data, env, mcb);
+	}
+
+	g_child = 1;
 	pid = fork();	// 새로운 자식 프로세스 생성
 	if (pid == 0)	// 자식 프로세스
 	{
