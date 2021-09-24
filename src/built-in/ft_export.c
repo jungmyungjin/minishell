@@ -98,7 +98,7 @@ void ft_export(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
 	{
 		output = show_env_by_export(env);
 		write(mcb->fd_output, output, ft_strlen(output));
-		return;
+		exit(0);
 	}
 	while(simple_cmd->argv[++idx])
 	{
@@ -113,5 +113,4 @@ void ft_export(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
 			set_env(&env, key, value);
 	}
 	global.rtn = 0;
-	exit(global.rtn);
 }

@@ -52,50 +52,86 @@ void exec_external_close_pipe(t_mcb *mcb)
     }
 }
 
-void	execute_command(t_ast *node, t_list *env, t_mcb *mcb)
+void execute_external(t_ast *node, t_list *env, t_mcb *mcb)
 {
 	extern char **environ;
+
+	if (execve(((t_simple_cmd*)node->data)->file_path, ((t_simple_cmd*)node->data)->argv, environ) == -1)	// 바이너리 교체 실패
+	{
+		global.rtn = 127;
+		ft_putendl_fd("Command not found", STDERR_FILENO);
+		exit(0);
+	}
+}
+
+int	execute_set_built_in(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
+{
+	if (!ft_strcmp(simple_cmd->original, "exit"))
+	{
+		ft_exit(simple_cmd, env, mcb);
+		return (1);
+	}
+	if (!ft_strcmp(simple_cmd->original, "unset"))
+	{
+		ft_unset(simple_cmd, env, mcb);
+		return (1);
+	}
+	if (!ft_strcmp(simple_cmd->original, "cd"))
+	{
+		ft_cd(simple_cmd, env, mcb);
+		return (1);
+	}
+	if (!ft_strcmp(simple_cmd->original, "export") && simple_cmd->argv[1] != NULL)
+	{
+		ft_export(simple_cmd, env, mcb);
+		return (1);
+	}
+	return (0);
+}
+
+void execute_print_built_in(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
+{
+	if (!ft_strcmp(simple_cmd->original, "env"))
+		ft_env(simple_cmd, env, mcb);
+	if (!ft_strcmp(simple_cmd->original, "export"))
+		ft_export(simple_cmd, env, mcb);
+	if (!ft_strcmp(simple_cmd->original, "pwd"))
+		ft_pwd(simple_cmd, env, mcb);
+	if (!ft_strcmp(simple_cmd->original, "echo"))
+		ft_echo(simple_cmd, env, mcb);
+}
+
+void run_using_fork(t_ast *node, t_list *env, t_mcb *mcb)
+{
 	pid_t pid;
 	pid_t wpid;
 	int status;
 
-	if (!ft_strcmp(((t_simple_cmd*)node->data)->original, "exit"))
-	{
-		ft_exit(node->data, env, mcb);
-		return ;
-	}
-
-	global.child = 1;
 	pid = fork();	// 새로운 자식 프로세스 생성
 	if (pid == 0)	// 자식 프로세스
 	{
 		exec_external_set_pipe(mcb);
 		exec_external_stdout_stdin(mcb);
 		if (is_built_in(node->data))
-			execve_built_in(node->data, env, mcb);
+			execute_print_built_in(node->data, env, mcb);
 		else
-		{
-			if (execve(((t_simple_cmd*)node->data)->file_path, ((t_simple_cmd*)node->data)->argv, environ) == -1)	// 바이너리 교체 실패
-			{
-				global.rtn = 127;
-				ft_putendl_fd("ERROR", STDERR_FILENO);
-				exit(global.rtn);
-			}
-		}
+			execute_external(node, env, mcb);
 	}
 	else if (pid > 0)	// 부모 프로세스
 	{
-		do
-		{	// 부모프로세스는 자식프로세스가 종료될때 까지 기다린다
-			wpid = waitpid(pid, &status, WUNTRACED);
-		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
+		wpid = waitpid(pid, &status, WUNTRACED);
 		exec_external_close_pipe(mcb);
+		exec_external_file_close(mcb);
 	}
 	else
-	{
-		ft_putendl_fd("ERROR", STDERR_FILENO);
-	}
-	exec_external_file_close(mcb);
+		ft_putendl_fd("Pid error", STDERR_FILENO);
+}
 
+void	execute_command(t_ast *node, t_list *env, t_mcb *mcb)
+{
+	if (execute_set_built_in(node->data, env, mcb) == 1)
+		return;
+	global.child = 1;
+	run_using_fork(node, env, mcb);
 	global.child = 0;
 }
