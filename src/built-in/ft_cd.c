@@ -8,7 +8,7 @@
 #include "minishell.h"
 
 // cd 명령어는 '무조건' 첫번째 인자값만 인식한다.
-void	ft_cd(t_simple_cmd *simple_cmd, t_list *env)
+void	ft_cd(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
 {
 	int	rtn;
 	char *output;
@@ -19,4 +19,5 @@ void	ft_cd(t_simple_cmd *simple_cmd, t_list *env)
 		write(2, output, ft_strlen(output) + 1);
 	if(output)
 		free(output);
+	exit(0);
 }

@@ -52,23 +52,29 @@ void exec_external_close_pipe(t_mcb *mcb)
     }
 }
 
-
-int	exec_external(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
+void	execute_command(t_ast *node, t_list *env, t_mcb *mcb)
 {
+	g_child = 1;
 	extern char **environ;
-	pid_t pid, wpid;
+	pid_t pid;
+	pid_t wpid;
 	int status;
 
 	pid = fork();	// 새로운 자식 프로세스 생성
 	if (pid == 0)	// 자식 프로세스
 	{
-	    exec_external_set_pipe(mcb);
-        exec_external_stdout_stdin(mcb);
-		if (execve(simple_cmd->file_path, simple_cmd->argv, environ) == -1)	// 바이너리 교체 실패
-        {
-		    ft_putendl_fd("ERROR", STDERR_FILENO);
-		    exit(EXIT_FAILURE);
-        }
+		exec_external_set_pipe(mcb);
+		exec_external_stdout_stdin(mcb);
+		if (is_built_in(node->data))
+			execve_built_in(node->data, env, mcb);
+		else
+		{
+			if (execve(((t_simple_cmd*)node->data)->file_path, ((t_simple_cmd*)node->data)->argv, environ) == -1)	// 바이너리 교체 실패
+			{
+				ft_putendl_fd("ERROR", STDERR_FILENO);
+				exit(EXIT_FAILURE);
+			}
+		}
 	}
 	else if (pid > 0)	// 부모 프로세스
 	{
@@ -81,5 +87,6 @@ int	exec_external(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
 	else
 		ft_putendl_fd("ERROR", STDERR_FILENO);
 	exec_external_file_close(mcb);
-	return (0);
+
+	g_child = 0;
 }
