@@ -3,6 +3,7 @@
 
 void sig_new_line(int status)
 {
+	global.rtn = 130;
     if (global.child == 0)
     {
         printf("\n");
@@ -16,7 +17,6 @@ void sig_new_line(int status)
         rl_on_new_line();
         rl_replace_line("", 0);
     }
-	global.rtn = 130;
 }
 
 void sig_exit_shell()

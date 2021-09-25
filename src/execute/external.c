@@ -52,15 +52,41 @@ void exec_external_close_pipe(t_mcb *mcb)
     }
 }
 
+void set_wpid_status(int status)
+{
+	global.rtn = WEXITSTATUS(status);
+	if (WTERMSIG(status))
+	{
+		if (WTERMSIG(status) == SIGINT)
+			global.rtn = 130;
+		else if (WTERMSIG(status) == SIGQUIT)
+			global.rtn = 131;
+		else
+			global.rtn = 128 + status;
+	}
+}
+
+void set_execve_status()
+{
+	if (errno == EISDIR || errno == EACCES) {
+		ft_putendl_fd(strerror(EISDIR), STDERR_FILENO);
+		exit(126);
+	}
+	if (errno == ENOENT) {
+		ft_putendl_fd(strerror(errno), STDERR_FILENO);
+		exit(1);
+	}
+	ft_putendl_fd("command not found", STDERR_FILENO);
+	exit(127);
+}
+
 void execute_external(t_ast *node, t_list *env, t_mcb *mcb)
 {
 	extern char **environ;
 
 	if (execve(((t_simple_cmd*)node->data)->file_path, ((t_simple_cmd*)node->data)->argv, environ) == -1)	// 바이너리 교체 실패
 	{
-		global.rtn = 127;
-		ft_putendl_fd("Command not found", STDERR_FILENO);
-		exit(0);
+		set_execve_status();
 	}
 }
 
@@ -120,6 +146,7 @@ void run_using_fork(t_ast *node, t_list *env, t_mcb *mcb)
 	else if (pid > 0)	// 부모 프로세스
 	{
 		wpid = waitpid(pid, &status, WUNTRACED);
+		set_wpid_status(status);
 		exec_external_close_pipe(mcb);
 		exec_external_file_close(mcb);
 	}
