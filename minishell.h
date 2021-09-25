@@ -20,7 +20,13 @@
 #define WRITE_END 1
 
 // global 변수.
-int g_child;
+//int g_child;
+
+typedef struct s_common {
+	int child;
+	int rtn;
+} g_common;
+g_common global;
 
 int main(int argc, char *argv[], char *envp[]);
 
@@ -153,13 +159,13 @@ void env_key_error(char *cmd, char *arg);
 /*
  *  built-in
  */
-void	ft_cd(t_simple_cmd *simple_cmd, t_list *env);
-void	ft_env(t_simple_cmd *simple_cmd, t_list *env);
-void	ft_export(t_simple_cmd *simple_cmd, t_list *env);
-void	ft_pwd(t_simple_cmd *simple_cmd, t_list *env);
-void	ft_unset(t_simple_cmd *simple_cmd, t_list *env);
-void	ft_echo(t_simple_cmd *simple_cmd, t_list *env);
-void	ft_exit(t_simple_cmd *simple_cmd, t_list *env);
+void	ft_cd(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb);
+void	ft_env(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb);
+void	ft_export(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb);
+void	ft_pwd(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb);
+void	ft_unset(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb);
+void	ft_echo(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb);
+void	ft_exit(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb);
 
 char	*get_current_path(void);
 
@@ -194,10 +200,11 @@ t_env	*find_env_by_key(t_list *env, char *env_key);
 /*
  *  execute
  */
-void execve_built_in(t_simple_cmd *simple_cmd, t_list *env);
-int	exec_external(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb);
+void execve_built_in(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb);
 void search_tree(t_ast *node, t_list *env, t_mcb *mcb);
 void execute_tree(t_ast *root, t_list *env, t_mcb *mcb);
 void execute_redirect(t_redirect *redirect, t_mcb *mcb);
 void init_mcb(t_mcb *mcb);
+int	is_built_in(t_simple_cmd *simple_cmd);
+void	execute_command(t_ast *node, t_list *env, t_mcb *mcb);
 #endif

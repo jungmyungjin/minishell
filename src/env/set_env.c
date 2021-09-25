@@ -45,10 +45,8 @@ void set_env(t_list **env, char *key, char *value)
 	set_target = find_env_by_key(*env, key);
 	if (set_target == NULL)
 		set_new_env(env, key, value);
-	else
+	else if (value != NULL)
 	{
-		free(set_target->origin_text);
-		free(set_target->key);
 		if (set_target->value != NULL)
 			free(set_target->value);
 		set_env_value(set_target, key, value);

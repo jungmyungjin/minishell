@@ -4,7 +4,7 @@
 
 #include "minishell.h"
 
-void ft_unset(t_simple_cmd *simple_cmd, t_list *env)
+void ft_unset(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
 {
 	int idx;
 	char *key;
@@ -22,4 +22,5 @@ void ft_unset(t_simple_cmd *simple_cmd, t_list *env)
 		else
 			unset_env(&env, key);
 	}
+	global.rtn = 0;
 }

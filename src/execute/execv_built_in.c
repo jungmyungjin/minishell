@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void execve_built_in(t_simple_cmd *simple_cmd, t_list *env)
+void execve_built_in(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
 {
     // cd
     // env
@@ -8,17 +8,17 @@ void execve_built_in(t_simple_cmd *simple_cmd, t_list *env)
     // unset;
 
 	if (!ft_strcmp(simple_cmd->original, "cd"))
-		ft_cd(simple_cmd, env);
+		ft_cd(simple_cmd, env, mcb);
 	if (!ft_strcmp(simple_cmd->original, "env"))
-		ft_env(simple_cmd, env);
+		ft_env(simple_cmd, env, mcb);
 	if (!ft_strcmp(simple_cmd->original, "export"))
-		ft_export(simple_cmd, env);
+		ft_export(simple_cmd, env, mcb);
 	if (!ft_strcmp(simple_cmd->original, "unset"))
-		ft_unset(simple_cmd, env);
+		ft_unset(simple_cmd, env, mcb);
 	if (!ft_strcmp(simple_cmd->original, "pwd"))
-		ft_pwd(simple_cmd, env);
+		ft_pwd(simple_cmd, env, mcb);
 	if (!ft_strcmp(simple_cmd->original, "echo"))
-		ft_echo(simple_cmd, env);
+		ft_echo(simple_cmd, env, mcb);
 	if (!ft_strcmp(simple_cmd->original, "exit"))
-		ft_exit(simple_cmd, env);
+		ft_exit(simple_cmd, env, mcb);
 }

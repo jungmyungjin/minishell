@@ -4,7 +4,7 @@
  * 결과물 처리 필요
  */
 
-void ft_env(t_simple_cmd *simple_cmd, t_list *env)
+void ft_env(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
 {
 	char *output;
 	char *line;
@@ -24,6 +24,8 @@ void ft_env(t_simple_cmd *simple_cmd, t_list *env)
 			allocation_error();
 		env = env->next;
 	}
-	write(1, output, ft_strlen(output));
+	write(mcb->fd_output, output, ft_strlen(output));
 	free(output);
+	global.rtn = 0;
+	exit(global.rtn);
 }

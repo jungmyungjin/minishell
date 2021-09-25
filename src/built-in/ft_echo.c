@@ -8,7 +8,7 @@
  * 결과물 처리 필요
  */
 
-void ft_echo(t_simple_cmd *simple_cmd, t_list *env)
+void ft_echo(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
 {
 	char *output;
 	int idx;
@@ -29,9 +29,11 @@ void ft_echo(t_simple_cmd *simple_cmd, t_list *env)
 	}
 	if (output != NULL)
 	{
-		write(1, output, ft_strlen(output));
+		write(mcb->fd_output, output, ft_strlen(output));
 		free(output);
 	}
 	if (used_newline)
-		write(1, "\n", 1);
+		write(mcb->fd_output, "\n", 1);
+	global.rtn = 0;
+	exit(global.rtn);
 }

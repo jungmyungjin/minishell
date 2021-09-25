@@ -6,6 +6,7 @@
 int allocation_error()
 {
     printf("Error: memory allocation failure\n");
+	global.rtn = 137;
     exit(137); // a program took up too much memory
 }
 

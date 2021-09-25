@@ -81,7 +81,7 @@ void	div_key_value(char *arg, char **key, char **value)
 }
 
 // 파이프 및 리다이렉션에 따라 어떻게 리턴할지 달라짐
-void ft_export(t_simple_cmd *simple_cmd, t_list *env)
+void ft_export(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
 {
 	int idx;
 	char *key;
@@ -97,8 +97,8 @@ void ft_export(t_simple_cmd *simple_cmd, t_list *env)
 	if (simple_cmd->argv[1] == NULL)
 	{
 		output = show_env_by_export(env);
-		write(1, output, ft_strlen(output));
-		return;
+		write(mcb->fd_output, output, ft_strlen(output));
+		exit(0);
 	}
 	while(simple_cmd->argv[++idx])
 	{
@@ -112,4 +112,5 @@ void ft_export(t_simple_cmd *simple_cmd, t_list *env)
 		else
 			set_env(&env, key, value);
 	}
+	global.rtn = 0;
 }
