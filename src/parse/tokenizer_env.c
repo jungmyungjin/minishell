@@ -22,6 +22,8 @@ int is_env(char *str, int i)
             return (1);
         if (str[i + 1] == '_')
             return (1);
+		if (str[i + 1] == '?')
+			return (1);
     }
     return (0);
 }
@@ -42,6 +44,8 @@ int is_token_in_env(char *str)
 
 int find_dollar_end(char *str, int j)
 {
+	if (str[j] == '?')
+		return (j);
     while (is_env_character(str[j]))
         j++;
     return (j - 1);
@@ -75,8 +79,12 @@ char *create_new_str(t_list *env, char *token, int start_dollar, int end_dollar)
     int new_str_len;
 
     env_key = ft_substr(token, start_dollar + 1, end_dollar - start_dollar); // env key를 문자료열로 만들어서 찾는다.
-    // printf("env key: %s", env_key);
-    env_value = get_env_value(env, env_key); // env_key 를 사용하여 env_value 가져온다.
+//     printf("env key: %s", env_key);
+
+    if (ft_strcmp(env_key, "?") == 0)
+    	env_value = ft_itoa(global.rtn);
+    else
+    	env_value = get_env_value(env, env_key); // env_key 를 사용하여 env_value 가져온다.
     new_str_len = ft_strlen(token) - (end_dollar - start_dollar + 1) + ft_strlen(env_value); // 전체길이 - key길이 + value 길이 // 추후 하나로 합칠 예정. 변수 5개 초과
     new_str = (char *)malloc(sizeof(char) * (new_str_len + 1)); // todo: env 값을 못찾앗을떄 테스트 해봐야함
     if (new_str == NULL)
@@ -104,13 +112,7 @@ void convert_env(t_list *env, t_token_info *token_info)
         if (token_info->tokens[i].type != T_SINGLE_QUOTES)
         {
 			start_dollar = is_token_in_env(token_info->tokens[i].str);
-			if (ft_strcmp(token_info->tokens[i].str, "$?") == 0)
-			{
-				new_str = ft_itoa(global.rtn);
-				free(token_info->tokens[i].str);
-				token_info->tokens[i].str = new_str;
-			}
-			else if (start_dollar != -1)
+			if (start_dollar != -1)
 			{
 				end_dollar = find_dollar_end(token_info->tokens[i].str, start_dollar + 1);
 				new_str = create_new_str(env, token_info->tokens[i].str, start_dollar, end_dollar);
