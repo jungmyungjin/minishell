@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_analysis.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ychoi <ychoi@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 05:57:51 by ychoi             #+#    #+#             */
-/*   Updated: 2021/09/27 05:59:21 by ychoi            ###   ########.fr       */
+/*   Updated: 2021/09/27 08:29:30 by mjung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	syntax_analysis(const t_token_info tokens, t_ast **root)
 	idx = syntax_pipeline_check(tokens, 0);
 	if (idx == -1)
 	{
-		global.rtn = 258;
+		g_global.rtn = 258;
 		printf("fail to syntax analysis\n");
 		return (-1);
 	}

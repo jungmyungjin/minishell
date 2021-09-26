@@ -6,7 +6,7 @@
 /*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 07:10:24 by mjung             #+#    #+#             */
-/*   Updated: 2021/09/27 07:11:43 by mjung            ###   ########.fr       */
+/*   Updated: 2021/09/27 08:28:51 by mjung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ void	ft_env(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
 	}
 	write(mcb->fd_output, output, ft_strlen(output));
 	free(output);
-	global.rtn = 0;
-	exit(global.rtn);
+	g_global.rtn = 0;
+	exit(g_global.rtn);
 }

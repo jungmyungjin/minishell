@@ -6,7 +6,7 @@
 /*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 07:15:48 by mjung             #+#    #+#             */
-/*   Updated: 2021/09/27 07:16:02 by mjung            ###   ########.fr       */
+/*   Updated: 2021/09/27 08:29:12 by mjung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ void	ft_pwd(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
 	output = ft_strjoin(output, ft_strdup("\n"));
 	write(mcb->fd_output, output, ft_strlen(output));
 	free(output);
-	global.rtn = 0;
-	exit(global.rtn);
+	g_global.rtn = 0;
+	exit(g_global.rtn);
 }

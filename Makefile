@@ -16,20 +16,23 @@ SRCS =  ./src/main.c \
 		./src/parse/syntax_make_tree.c \
 		./src/parse/syntax_make_tree2.c \
 		./src/parse/ast_free.c \
+		./src/parse/full_path.c \
 		./src/env/get_env.c \
 		./src/env/init_env.c \
 		./src/env/set_env.c \
 		./src/env/unset_env.c \
-		./src/env/check_env_key.c \
+		./src/env/check_env.c \
 		./src/error/error.c \
-		./src/utils/ft_strcmp.c \
-		./src/exception/parse_exception.c \
-		./src/execute/external.c \
 		./src/env/env_path.c \
+		./src/exception/parse_exception.c \
+		./src/execute/excute_command.c \
+		./src/execute/external.c \
 		./src/execute/execute_tree.c \
         ./src/execute/execv_built_in.c \
         ./src/execute/execute_redirect.c \
-        ./src/signal/signal.c
+        ./src/signal/signal.c \
+		./src/utils/ft_strcmp.c \
+		./src/utils/set_status.c
 
 CC = gcc
 LIBFT = libft

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_redirect.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ychoi <ychoi@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 06:40:47 by ychoi             #+#    #+#             */
-/*   Updated: 2021/09/27 06:41:41 by ychoi            ###   ########.fr       */
+/*   Updated: 2021/09/27 08:29:26 by mjung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	redirect_input(char *filename, t_mcb *mcb)
 	if (file_open < 0)
 	{
 		ft_putendl_fd("FILE OPEN INPUT ERROR", STDERR_FILENO);
-		global.rtn = 1;
+		g_global.rtn = 1;
 	}
 	else
 	{

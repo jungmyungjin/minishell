@@ -6,7 +6,7 @@
 /*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 07:12:09 by mjung             #+#    #+#             */
-/*   Updated: 2021/09/27 07:17:22 by mjung            ###   ########.fr       */
+/*   Updated: 2021/09/27 08:29:06 by mjung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,5 @@ void	ft_export(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
 		free(key);
 		free(value);
 	}
-	global.rtn = 0;
+	g_global.rtn = 0;
 }

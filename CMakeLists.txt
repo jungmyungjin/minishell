@@ -85,7 +85,7 @@ add_executable(
         src/env/set_env.c
         src/env/get_env.c
         src/env/unset_env.c
-        src/env/check_env_key.c
+        src/env/check_env.c
         src/execute/external.c
         src/env/env_path.c
         src/parse/syntax_analysis.c
@@ -100,6 +100,9 @@ add_executable(
         src/built-in/ft_exit.c
         src/execute/execute_redirect.c
         src/signal/signal.c
+		src/parse/full_path.c
+		src/execute/excute_command.c
+		src/utils/set_status.c
 )
 
 target_link_libraries(minishell readline)
