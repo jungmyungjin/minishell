@@ -1,37 +1,45 @@
-//
-// Created by 정명진 on 2021/09/06.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_path.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/27 07:21:00 by mjung             #+#    #+#             */
+/*   Updated: 2021/09/27 07:21:37 by mjung            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
 void	free_double_char(char **lines)
 {
-	int idx;
+	int	idx;
 
 	idx = -1;
-	while(lines[++idx])
+	while (lines[++idx])
 		free(lines[idx]);
 	free(lines);
 }
 
 char	**get_env_path(t_list *env)
 {
-	char *raw_path;
-	char **paths;
+	char	*raw_path;
+	char	**paths;
 
 	raw_path = get_env_value(env, "PATH");
 	paths = ft_split(raw_path, ":");
 	free(raw_path);
-	return(paths);
+	return (paths);
 }
 
 char	*get_full_path_by_env(t_list *env, char *filename)
 {
-	struct stat buf;
-	char **paths;
-	char *tmp;
-	char *full_path;
-	int idx;
+	struct stat	buf;
+	char		**paths;
+	char		*tmp;
+	char		*full_path;
+	int			idx;
 
 	full_path = NULL;
 	idx = -1;
@@ -46,7 +54,7 @@ char	*get_full_path_by_env(t_list *env, char *filename)
 			full_path = NULL;
 		}
 		else
-			break;
+			break ;
 	}
 	if (paths)
 		free_double_char(paths);
