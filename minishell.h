@@ -111,6 +111,12 @@ int    tokenizer_split(char *line, t_token_info *token_info);
 void	convert_env(t_list *env, t_token_info *token_info);
 void    set_tokenizer_type(t_token_info *token_info);
 void    free_tokens(t_token_info *token_info);
+t_token	*split_line(const char *line, t_token *tokens, int count);
+int	counting_tokens(char *line);
+int	find_quotes_to_end(const char *line, int i, t_token *token);
+int	find_double_quotes(const char *line, int i);
+int	find_single_quotes(const char *line, int i);
+int	is_space(char c);
 
 /*
  * parser syntax analysis
@@ -122,6 +128,7 @@ int syntax_simple_cmd(t_token_info tokens, int idx, t_ast **node);
 int syntax_argv(t_token_info tokens, int idx, char **args, int depth);
 int syntax_redirects(t_token_info tokens, int idx, t_ast **node);
 int syntax_io_redirect(t_token_info tokens, int idx, t_ast **node);
+int	add_simple_cmd_argv(t_token_info tokens, t_simple_cmd *simple_cmd, int idx);
 
 int syntax_pipeline_check(t_token_info tokens, int idx);
 int syntax_cmd_check(t_token_info tokens, int idx);

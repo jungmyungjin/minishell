@@ -1,23 +1,29 @@
-# include "../../minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ychoi <ychoi@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/27 06:43:17 by ychoi             #+#    #+#             */
+/*   Updated: 2021/09/27 06:45:34 by ychoi            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-/*
- * refer error code: https://www.geeksforgeeks.org/exit-codes-in-c-c-with-examples/
- */
-int allocation_error()
+#include "minishell.h"
+
+int	allocation_error(void)
 {
-    printf("Error: memory allocation failure\n");
+	printf("Error: memory allocation failure\n");
 	global.rtn = 137;
-    exit(137); // a program took up too much memory
+	exit(137);
 }
 
-
-void env_key_error(char *cmd, char *arg)
+void	env_key_error(char *cmd, char *arg)
 {
-	char *error_msg;
+	char	*error_msg;
 
 	error_msg = "not a valid identifier";
-
-	// bash: export: `$%%abc': not a valid  identifier
 	ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd(cmd, STDERR_FILENO);

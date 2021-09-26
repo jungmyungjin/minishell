@@ -9,6 +9,7 @@ SRCS =  ./src/main.c \
 		./src/parse/tokenizer.c \
 		./src/parse/tokenizer_env.c \
 		./src/parse/tokenizer_split.c \
+		./src/parse/tokenizer_split2.c \
 		./src/parse/tokenizer_type.c \
 		./src/parse/syntax_analysis.c \
 		./src/parse/syntax_check.c \
