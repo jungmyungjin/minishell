@@ -19,13 +19,6 @@ char *get_env_value(t_list *env, char *env_key)
 	char *result;
 	t_env *found_env;
 
-	// 특수변수 예외처리
-	if (ft_strcmp(env_key, "$?"))
-	{
-		// 면령어 결과값을 찾는 로직 추가
-		// 이전명령어의 결과값 출력
-	}
-
 	found_env = find_env_by_key(env, env_key);
 	if (found_env == NULL)
 		result = ft_strdup("");
