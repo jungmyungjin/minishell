@@ -1,12 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execv_built_in.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ychoi <ychoi@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/27 06:43:06 by ychoi             #+#    #+#             */
+/*   Updated: 2021/09/27 06:43:11 by ychoi            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void execve_built_in(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
+void	execve_built_in(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
 {
-    // cd
-    // env
-    // export
-    // unset;
-
 	if (!ft_strcmp(simple_cmd->original, "cd"))
 		ft_cd(simple_cmd, env, mcb);
 	if (!ft_strcmp(simple_cmd->original, "env"))
