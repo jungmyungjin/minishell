@@ -33,6 +33,7 @@ char	*get_full_path_by_env(t_list *env, char *filename)
 	char *full_path;
 	int idx;
 
+	full_path = NULL;
 	idx = -1;
 	paths = get_env_path(env);
 	while (paths[++idx])
