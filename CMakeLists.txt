@@ -12,12 +12,12 @@ set(CMAKE_CXX_FLAGS ${LDFLAGS} ${CPPFLAGS})
 # include 디렉토리 추가
 include_directories(.)
 include_directories(libft)
-#include_directories(/usr/local/opt/readline/include)
-include_directories(/opt/homebrew/opt/readline/include)
+include_directories(/usr/local/opt/readline/include)
+#include_directories(/opt/homebrew/opt/readline/include)
 
 # 라이브러리 경로 추가
-#link_directories(/usr/local/opt/readline/lib)
-link_directories(/opt/homebrew/opt/readline/lib)
+link_directories(/usr/local/opt/readline/lib)
+#link_directories(/opt/homebrew/opt/readline/lib)
 
 # 실행파일
 add_executable(
