@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ychoi <ychoi@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 07:54:01 by mjung             #+#    #+#             */
-/*   Updated: 2021/09/27 08:02:34 by mjung            ###   ########.fr       */
+/*   Updated: 2021/09/27 15:42:03 by ychoi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,24 +43,46 @@ void	init_mcb(t_mcb *mcb)
 	mcb->fd_output = STDOUT_FILENO;
 }
 
+int	is_line_spaces(char *line)
+{
+	int	i;
+	int	check;
+
+	i = 0;
+	check = 0;
+	while (line[i])
+	{
+		if (line[i] == ' ')
+			check++;
+		i++;
+	}
+	if (ft_strlen(line) == check)
+		return (-1);
+	return (0);
+}
+
 void	minishell_loop(t_list **env)
 {
 	char	*line;
 	t_ast	*root;
 	t_mcb	mcb;
 
-	set_signal();
 	while (1)
 	{
 		line = readline(">> ");
 		if (line == NULL)
 			sig_exit_shell();
-		root = parser(*env, line);
-		if (root != NULL)
+		else if (is_line_spaces(line) == -1)
+			;
+		else
 		{
-			init_mcb(&mcb);
-			search_tree(root, *env, &mcb);
-			free_tree(&root);
+			root = parser(*env, line);
+			if (root != NULL)
+			{
+				init_mcb(&mcb);
+				search_tree(root, *env, &mcb);
+				free_tree(&root);
+			}
 		}
 		if (ft_strcmp(line, ""))
 			add_history(line);
@@ -75,6 +97,7 @@ int	main(int argc, char *argv[], char *envp[])
 	if (argc || argv)
 		;
 	env_initialize(&env, envp);
+	set_signal();
 	minishell_loop(&env);
 	return (EXIT_SUCCESS);
 }
