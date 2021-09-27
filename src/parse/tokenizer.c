@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ychoi <ychoi@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 07:48:39 by mjung             #+#    #+#             */
-/*   Updated: 2021/09/27 15:29:07 by ychoi            ###   ########.fr       */
+/*   Updated: 2021/09/27 15:51:16 by mjung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	lexical_analysis(t_list *env, char *line, t_token_info *token_info)
 	if (result == -1)
 	{
 		g_global.rtn = 258;
-		printf("fail to lexical analysis\n");
+		ft_putendl_fd("fail to lexical analysis", STDERR_FILENO);
 		return (-1);
 	}
 	convert_env(env, token_info);
