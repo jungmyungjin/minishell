@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_split2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ychoi <ychoi@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 06:09:33 by ychoi             #+#    #+#             */
-/*   Updated: 2021/09/27 08:54:12 by mjung            ###   ########.fr       */
+/*   Updated: 2021/09/27 15:28:57 by ychoi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	counting_tokens(char *line)
 	while (line[i] != '\0')
 	{
 		counting_tokens_while(line, &i, &count);
-		if (i == 1)
+		if (i == -1)
 			return (-1);
 	}
 	return (count);
@@ -62,6 +62,8 @@ void	split_line_while(int *i, const char *line, t_token *tokens, int *row)
 	{
 		start = *i;
 		*i = find_quotes_to_end(line, *i, &tokens[*row]);
+		if (*i == -1)
+			return ;
 		tokens[(*row)++].str = ft_substr(line, start + 1, *i - start - 1);
 		(*i)++;
 	}

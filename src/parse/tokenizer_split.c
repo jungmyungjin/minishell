@@ -6,7 +6,7 @@
 /*   By: ychoi <ychoi@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 06:09:33 by ychoi             #+#    #+#             */
-/*   Updated: 2021/09/27 06:33:48 by ychoi            ###   ########.fr       */
+/*   Updated: 2021/09/27 15:28:45 by ychoi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ int	tokenizer_split(char *line, t_token_info *token_info)
 	if (*line == '\0')
 		return (-1);
 	token_info->count = counting_tokens(line);
+	if (token_info->count <= 0)
+		return (-1);
 	token_info->tokens = (t_token *)malloc(sizeof(t_token)
 			* (token_info->count + 1));
 	if (token_info->tokens == NULL)
