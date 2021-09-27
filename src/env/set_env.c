@@ -1,10 +1,18 @@
-/*
- * 결과물 처리 필요
- */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   set_env.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/27 07:24:49 by mjung             #+#    #+#             */
+/*   Updated: 2021/09/27 07:25:05 by mjung            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-void set_env_value(t_env *env, char *key, char *value)
+void	set_env_value(t_env *env, char *key, char *value)
 {
 	char	*origin_text;
 
@@ -15,7 +23,6 @@ void set_env_value(t_env *env, char *key, char *value)
 	}
 	else
 		origin_text = ft_strdup(key);
-
 	if (origin_text == NULL)
 		allocation_error();
 	env->origin_text = origin_text;
@@ -24,7 +31,7 @@ void set_env_value(t_env *env, char *key, char *value)
 		env->value = ft_strdup(value);
 }
 
-void set_new_env(t_list **env, char *key, char *value)
+void	set_new_env(t_list **env, char *key, char *value)
 {
 	t_list	*new_list;
 	t_env	*new_contets;
@@ -38,9 +45,9 @@ void set_new_env(t_list **env, char *key, char *value)
 	ft_lstadd_back(env, new_list);
 }
 
-void set_env(t_list **env, char *key, char *value)
+void	set_env(t_list **env, char *key, char *value)
 {
-	t_env *set_target;
+	t_env	*set_target;
 
 	set_target = find_env_by_key(*env, key);
 	if (set_target == NULL)

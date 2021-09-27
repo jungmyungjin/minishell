@@ -1,18 +1,22 @@
-//
-// Created by 정명진 on 2021/09/16.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/27 07:09:13 by mjung             #+#    #+#             */
+/*   Updated: 2021/09/27 07:10:20 by mjung            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
- * 결과물 처리 필요
- */
-
-void ft_echo(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
+void	ft_echo(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
 {
-	char *output;
-	int idx;
-	int used_newline;
+	char	*output;
+	int		idx;
+	int		used_newline;
 
 	idx = 0;
 	used_newline = 1;
@@ -22,7 +26,7 @@ void ft_echo(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
 		used_newline = 0;
 		idx++;
 	}
-	while(simple_cmd->argv[++idx])
+	while (simple_cmd->argv[++idx])
 	{
 		output = ft_strjoin(output, ft_strdup(simple_cmd->argv[idx]));
 		output = ft_strjoin(output, ft_strdup(" "));
@@ -34,6 +38,5 @@ void ft_echo(t_simple_cmd *simple_cmd, t_list *env, t_mcb *mcb)
 	}
 	if (used_newline)
 		write(mcb->fd_output, "\n", 1);
-	global.rtn = 0;
-	exit(global.rtn);
+	exit(0);
 }

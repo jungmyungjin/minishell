@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ychoi <ychoi@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 06:43:17 by ychoi             #+#    #+#             */
-/*   Updated: 2021/09/27 06:45:34 by ychoi            ###   ########.fr       */
+/*   Updated: 2021/09/27 08:29:18 by mjung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	allocation_error(void)
 {
 	printf("Error: memory allocation failure\n");
-	global.rtn = 137;
+	g_global.rtn = 137;
 	exit(137);
 }
 

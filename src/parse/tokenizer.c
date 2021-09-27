@@ -1,40 +1,38 @@
-# include "../../minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/27 07:48:39 by mjung             #+#    #+#             */
+/*   Updated: 2021/09/27 07:53:18 by mjung            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// 토큰화하는 함수
-int lexical_analysis(t_list *env, char *line, t_token_info *token_info)
+#include "minishell.h"
+
+int	lexical_analysis(t_list *env, char *line, t_token_info *token_info)
 {
-    int result;
+	int	result;
 
-    // 문자열 분리 ["ls", "-al", "|", "cat"]
-    result = tokenizer_split(line, token_info);
-    if (result == -1) // line 이 null일 경우
-        return (-1);
-
-    // convert env variable in tokens
-    convert_env(env, token_info);
-
-    // 함수 호출시 전처리가 필요한지 연구 필요
-    // todo: convert backslash in tokens
-
-    // token 에 의미(type) 부여
-    set_tokenizer_type(token_info);
-
-//    for (int i = 0; i < token_info->count; i++)
-//        printf("[%d] %s\n", i, token_info->tokens[i].str);
-
-
-    return (0);
+	result = tokenizer_split(line, token_info);
+	if (result == -1)
+		return (-1);
+	convert_env(env, token_info);
+	set_tokenizer_type(token_info);
+	return (0);
 }
 
-void free_tokens(t_token_info *token_info)
+void	free_tokens(t_token_info *token_info)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (i < token_info->count)
-    {
-        free(token_info->tokens[i].str);
-        i++;
-    }
-    free(token_info->tokens);
+	i = 0;
+	while (i < token_info->count)
+	{
+		free(token_info->tokens[i].str);
+		i++;
+	}
+	free(token_info->tokens);
 }

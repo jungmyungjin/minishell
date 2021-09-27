@@ -6,7 +6,7 @@
 /*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 21:19:01 by mjung             #+#    #+#             */
-/*   Updated: 2021/09/07 21:04:13 by mjung            ###   ########.fr       */
+/*   Updated: 2021/09/27 08:57:13 by mjung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,9 @@ static int	string_split(
 			idx_start = idx_s + 1;
 	}
 	if ((s[idx_s] == '\0' && s[idx_s - 1] && !is_delimiter(s[idx_s - 1], delim
-	)) || (*i_rst == 0 && idx_start == 0 && s[idx_s] == '\0'))
+			)) || (*i_rst == 0 && idx_start == 0 && s[idx_s] == '\0'))
 		result[(*i_rst)] = ft_substr
-				(s, idx_start, idx_s - idx_start + 1);
+			(s, idx_start, idx_s - idx_start + 1);
 	if (!result[(*i_rst)++])
 		return (1);
 	return (0);
