@@ -6,7 +6,7 @@
 /*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 06:43:17 by ychoi             #+#    #+#             */
-/*   Updated: 2021/09/27 08:29:18 by mjung            ###   ########.fr       */
+/*   Updated: 2021/09/27 15:33:51 by mjung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	allocation_error(void)
 {
-	printf("Error: memory allocation failure\n");
+	ft_putendl_fd("Error: memory allocation failure", STDERR_FILENO);
 	g_global.rtn = 137;
 	exit(137);
 }
