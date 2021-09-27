@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_env.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjung <mjung@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ychoi <ychoi@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 07:45:13 by mjung             #+#    #+#             */
-/*   Updated: 2021/09/27 07:52:53 by mjung            ###   ########.fr       */
+/*   Updated: 2021/09/27 14:20:11 by ychoi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*create_new_str(
 
 	env_key = ft_substr(token, start_dollar + 1, end_dollar - start_dollar);
 	if (ft_strcmp(env_key, "?") == 0)
-		env_value = ft_itoa(global.rtn);
+		env_value = ft_itoa(g_global.rtn);
 	else
 		env_value = get_env_value(env, env_key);
 	new_str_len = ft_strlen(token)
